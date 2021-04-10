@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 public class Starter {
     public static void main(String[] args) throws BeansException {
-        //AppContext.load("application.properties");
 
         //final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("common-beans.xml");
         final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RootConfig.class);
