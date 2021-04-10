@@ -38,6 +38,23 @@ public class TicketClient {
         return transactionalJourneyService.createJourney(journeyEntity);
     }
 
+    public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
+        if (stationFrom == null) throw new IllegalArgumentException("station from must be set");
+        if (stationTo == null) throw new IllegalArgumentException("station to must be set");
+        if (dateFrom == null) throw new IllegalArgumentException("date from must be set");
+        if (dateTo == null) throw new IllegalArgumentException("date to must be set");
+
+        return journeyService.find(stationFrom, stationTo, dateFrom, dateTo);
+    }
+
+    public Collection<Journey> findByStations(String stationFrom, String stationTo) {
+        if (stationFrom == null) throw new IllegalArgumentException("station from must be set");
+        if (stationTo == null) throw new IllegalArgumentException("station to must be set");
+
+        return journeyService.findByStations(stationFrom, stationTo);
+    }
+
+
     @PostConstruct
     public void init() throws Exception {
         if (journeyService == null) throw new IllegalArgumentException("journeyService not init");
@@ -49,15 +66,5 @@ public class TicketClient {
     @PreDestroy
     public void destroy() throws Exception {
         System.out.println("destroy bean");
-    }
-
-
-    public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
-        if (stationFrom == null) throw new IllegalArgumentException("station from must be set");
-        if (stationTo == null) throw new IllegalArgumentException("station to must be set");
-        if (dateFrom == null) throw new IllegalArgumentException("date from must be set");
-        if (dateTo == null) throw new IllegalArgumentException("date to must be set");
-
-        return journeyService.find(stationFrom, stationTo, dateFrom, dateTo);
     }
 }

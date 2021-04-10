@@ -32,7 +32,6 @@ public final class DbSource {
     }
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-//        Class.forName(properties.getProperty("datasource.driver-class-name"));
         return DriverManager.getConnection(
                 properties.getProperty("database.url"),
                 properties.getProperty("database.username"),

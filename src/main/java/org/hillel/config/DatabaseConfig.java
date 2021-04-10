@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
@@ -35,6 +36,8 @@ public class DatabaseConfig {
         config.setJdbcUrl(environment.getProperty("database.url"));
         config.addDataSourceProperty("databaseName",
                 environment.getProperty("database.name"));
+        config.setMaximumPoolSize(Objects.requireNonNull(environment.getProperty("database.maxPoolSize", Integer.class)));
+        config.setMinimumIdle(Objects.requireNonNull(environment.getProperty("database.minimumIdle", Integer.class)));
         config.setDataSourceClassName(PGSimpleDataSource.class.getName());
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
@@ -52,6 +55,7 @@ public class DatabaseConfig {
         properties.put("hibernate.dialect", PostgreSQL10Dialect.class.getName());
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.show_sql", "true");
+        properties.put("javax.persistence.query.timeout", environment.getProperty("database.queryTimeout"));
         emf.setJpaProperties(properties);
         return emf;
     }

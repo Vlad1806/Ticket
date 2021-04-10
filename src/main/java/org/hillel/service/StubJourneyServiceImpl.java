@@ -18,4 +18,9 @@ public class StubJourneyServiceImpl implements JourneyService  {
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         return Collections.emptyList();
     }
+
+    @Override
+    public Collection<Journey> findByStations(String stationFrom, String stationTo) {
+        return Collections.emptyList();
+    }
 }

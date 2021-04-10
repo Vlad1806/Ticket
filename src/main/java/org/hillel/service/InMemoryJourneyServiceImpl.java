@@ -52,4 +52,13 @@ public class InMemoryJourneyServiceImpl implements JourneyService {
         }
         return Collections.unmodifiableList(out);
     }
+
+    @Override
+    public Collection<Journey> findByStations(String stationFrom, String stationTo) {
+        if (storage == null || storage.isEmpty()) return Collections.emptyList();
+        List<Journey> journeys = storage.get(stationFrom + " -> " + stationTo);
+        if (journeys == null || journeys.isEmpty()) return Collections.emptyList();
+        List<Journey> out = new ArrayList<>(journeys);
+        return Collections.unmodifiableList(out);
+    }
 }
