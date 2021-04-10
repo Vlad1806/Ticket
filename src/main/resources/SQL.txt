@@ -1,0 +1,18 @@
+CREATE TABLE journey
+(
+     id SERIAL PRIMARY KEY,
+     station_from VARCHAR(100) NOT NULL,
+     station_to VARCHAR(100) NOT NULL,
+     departure DATE NOT NULL,
+     arrival DATE NOT NULL,
+     route VARCHAR(200) NOT NULL
+);
+
+INSERT INTO journey (station_from, station_to, departure, arrival, route)
+VALUES
+ ('Odessa', 'Kiev', '04.02.2021', '04.04.2021', 'Odessa -> Kiev'),
+ ('Odessa', 'Kiev', '03.05.2021', '03.07.2021', 'Odessa -> Kiev'),
+ ('Odessa', 'Kiev', '04.06.2021', '04.08.2021', 'Odessa -> Kiev'),
+ ('Kiev',   'Lviv', '05.08.2021', '05.10.2021', 'Kiev -> Lviv'),
+ ('Lviv', 'Odessa', '06.10.2021', '06.12.2021', 'Lviv -> Odessa'),
+ ('Odessa', 'Lviv', '07.12.2021', '07.14.2021', 'Odessa -> Lviv')

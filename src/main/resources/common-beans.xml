@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <context:component-scan base-package="org.hillel" />
+    <context:property-placeholder location="application.properties" />
+
+
+<!--    <bean id="inMemoryJourneyService2" class="org.hillel.service.InMemoryJourneyServiceImpl">-->
+<!--&lt;!&ndash;        <constructor-arg name="identify"/>  if will be 2 or grater arguments?????&ndash;&gt;-->
+<!--        <constructor-arg name="identify" value="1"/>-->
+<!--    </bean>-->
+
+<!--    <bean name="stub,stubJourneyService" class="org.hillel.service.StubJourneyServiceImpl"/>-->
+
+<!--    <bean class="org.hillel.service.TicketClient">-->
+<!--        <constructor-arg name="journeyService" ref="inMemoryJourneyService"></constructor-arg>-->
+<!--    </bean>-->
+
+</beans>
