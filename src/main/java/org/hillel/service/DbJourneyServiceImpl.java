@@ -2,6 +2,7 @@ package org.hillel.service;
 
 import org.hillel.JDBC.DbSource;
 import org.hillel.Journey;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DbJourneyServiceImpl implements JourneyService{
@@ -56,6 +54,11 @@ public class DbJourneyServiceImpl implements JourneyService{
 
 
     @Override
+    public Long createJourney(JourneyEntity journeyEntity) {
+        return null;
+    }
+
+    @Override
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         List<Journey> journeys = new ArrayList<>();
             for (Journey item: findByStations(stationFrom,stationTo)) {
@@ -74,6 +77,11 @@ public class DbJourneyServiceImpl implements JourneyService{
         journeys.addAll(getStations(stationFrom,stationTo));
 
         return Collections.unmodifiableList(journeys);
+    }
+
+    @Override
+    public Optional<JourneyEntity> getById(Long id,boolean withDependencies) {
+        return Optional.empty();
     }
 
 

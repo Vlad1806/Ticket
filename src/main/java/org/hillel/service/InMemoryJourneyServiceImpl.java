@@ -1,6 +1,6 @@
 package org.hillel.service;
 import org.hillel.Journey;
-import org.springframework.context.annotation.Primary;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +40,11 @@ public class InMemoryJourneyServiceImpl implements JourneyService {
         );
     }
 
+    @Override
+    public Long createJourney(JourneyEntity journeyEntity) {
+        return null;
+    }
+
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         if (storage == null || storage.isEmpty()) return Collections.emptyList();
         List<Journey> journeys = storage.get(stationFrom + " -> " + stationTo);
@@ -60,5 +65,10 @@ public class InMemoryJourneyServiceImpl implements JourneyService {
         if (journeys == null || journeys.isEmpty()) return Collections.emptyList();
         List<Journey> out = new ArrayList<>(journeys);
         return Collections.unmodifiableList(out);
+    }
+
+    @Override
+    public Optional<JourneyEntity> getById(Long id,boolean withDependencies) {
+        return Optional.empty();
     }
 }

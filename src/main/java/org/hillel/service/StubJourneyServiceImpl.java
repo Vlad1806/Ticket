@@ -1,6 +1,7 @@
 package org.hillel.service;
 
 import org.hillel.Journey;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,11 @@ public class StubJourneyServiceImpl implements JourneyService  {
         return "StubJourneyServiceImpl{}";
     }
 
+    @Override
+    public Long createJourney(JourneyEntity journeyEntity) {
+        return null;
+    }
+
     public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
         return Collections.emptyList();
     }
@@ -22,5 +28,10 @@ public class StubJourneyServiceImpl implements JourneyService  {
     @Override
     public Collection<Journey> findByStations(String stationFrom, String stationTo) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<JourneyEntity> getById(Long i,boolean withDependencies) {
+        return Optional.empty();
     }
 }
