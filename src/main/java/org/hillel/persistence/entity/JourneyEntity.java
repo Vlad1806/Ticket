@@ -6,14 +6,16 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.enums.DirectionType;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.*;
 
 @Entity
-@Table(name = "journey2", uniqueConstraints =
-@UniqueConstraint(name = "uniq_station_from_to",columnNames = {"station_from","station_to"}))
+@Table(name = "journey2")
+//uniqueConstraints =
+//@UniqueConstraint(name = "uniq_station_from_to",columnNames = {"station_from","station_to"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -60,7 +62,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
     public void addVehicle(final VehicleEntity vehicle){
         this.vehicle = vehicle;
     }
-//
+
 //    @OneToMany(mappedBy = "journey2",cascade = {CascadeType.PERSIST})
 //    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
 //
@@ -71,16 +73,6 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
 //        vehicleSeats.add(vehicleSeat);
 //        vehicleSeat.addJourney(this);
 //    }
-
-
-
-
-
-
-
-
-
-
 
 
     @Override

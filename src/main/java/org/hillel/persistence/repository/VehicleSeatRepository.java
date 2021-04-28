@@ -33,7 +33,7 @@ public class VehicleSeatRepository extends CommonRepository<VehicleSeatEntity,Lo
         super.removeById(aLong);
     }
 
-    @Override
+
     public void remove(VehicleSeatEntity entity) {
         super.remove(entity);
     }

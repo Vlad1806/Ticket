@@ -1,6 +1,7 @@
 package org.hillel.service;
 
 import org.hillel.persistence.entity.StopEntity;
+import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.VehicleSeatEntity;
 import org.hillel.persistence.repository.VehicleSeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,9 @@ public class TransactionalVehicleSeatService {
                 vehicleSeatEntity.getJourney();
             }
             return vehicleSeat;
+    }
+    @Transactional
+    public void remove(VehicleSeatEntity vehicleSeatEntityy) {
+         vehicleSeatRepository.remove(vehicleSeatEntityy);
     }
 }

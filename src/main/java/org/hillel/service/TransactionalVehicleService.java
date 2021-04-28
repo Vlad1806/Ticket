@@ -35,4 +35,9 @@ public class TransactionalVehicleService {
     public void remove(VehicleEntity vehicleEntity){
         vehicleRepository.remove(vehicleEntity);
     }
+
+    @Transactional
+    public void removeById(Long id){
+        vehicleRepository.removeById(id);
+    }
 }

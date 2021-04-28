@@ -39,6 +39,14 @@ public class TransactionalStopService {
         return stop;
     }
 
+    @Transactional
+    public void remove(StopEntity stopEntity){
+        stopRepository.remove(stopEntity);
+    }
+    @Transactional
+    public void removeById(Long id) {
+        stopRepository.removeById(id);
+    }
 
 
 //    @Transactional

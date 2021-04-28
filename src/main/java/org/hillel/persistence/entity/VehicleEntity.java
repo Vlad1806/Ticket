@@ -33,7 +33,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
         journeyEntity.addVehicle(this);
     }
 
-    @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY,orphanRemoval = true)
     private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
 
     public void addSeat(VehicleSeatEntity seatEntity){
@@ -50,7 +50,10 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
         vehicleSeat.addVehicle(this);
     }
 
-
+//    public void removeAllJVehicleSeat(){
+//        if (CollectionUtils.isEmpty(vehicleSeats))return;
+//        vehicleSeats.forEach(item -> item.se(null));
+//    }
     public void removeAllJourneys(){
         if (CollectionUtils.isEmpty(journeys))return;
         journeys.forEach(item -> item.setVehicle(null));

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class StopEntity extends AbstractModifyEntity<Long>{
     @Embedded
     private CommonInfo commonInfo;
 
-    @OneToOne(mappedBy = "stop", cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "stop", cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY,orphanRemoval = true)
     private StopAdditionalInfoEntity additionalInfo;
 
     @ManyToMany(mappedBy = "stops",fetch = FetchType.LAZY)
@@ -45,6 +46,12 @@ public class StopEntity extends AbstractModifyEntity<Long>{
         if (journeyEntity == null)return;
         if (journeys == null) journeys = new ArrayList<>();
         journeys.add(journeyEntity);
+    }
+
+    public void removeAllJourneys(){
+        if (CollectionUtils.isEmpty(journeys))return;
+        journeys.forEach(item -> item.getStops().remove(this));
+        this.journeys.clear();
     }
 
     @Override

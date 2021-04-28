@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -39,6 +40,10 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
         this.journey = journey;
     }
 
+    public void removeAllJourneys(){
+        //if (CollectionUtils.isEmpty(journeys))return;
+        journey = null;
+    }
 
     @Override
     public String toString() {

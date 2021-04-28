@@ -1,5 +1,4 @@
 package org.hillel.service;
-import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
@@ -10,9 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.time.LocalDate;
 import java.util.*;
 
 @Component
@@ -75,7 +71,7 @@ public class TicketClient {
 
     public JourneyEntity createOrUpdateJourney(JourneyEntity journey){
         if (journey == null) throw new IllegalArgumentException("JourneyEntity must be set");
-        return transactionalJourneyService.createorUpdateJourney(journey);
+        return transactionalJourneyService.createOrUpdateJourney(journey);
     }
 
     public Optional<JourneyEntity> findJourneyById(Long id,boolean withDependencies){
@@ -83,9 +79,13 @@ public class TicketClient {
         return id == null ? Optional.empty() : transactionalJourneyService.findById(id,withDependencies);
     }
 
-    public void remove(JourneyEntity journey1) {
-        transactionalJourneyService.remove(journey1);
-    }
+//    public void remove(JourneyEntity journey1) {
+//        transactionalJourneyService.remove(journey1);
+//    }
+//
+//    public void removeById(Long id) {
+//        transactionalJourneyService.removeById(id);
+//    }
 
 
     //VehicleEntity manipulation
@@ -99,15 +99,12 @@ public class TicketClient {
         return id == null ? Optional.empty() : transactionalVehicleService.findById(id,withDependencies);
     }
 
-
-
-//    public void removeById(Long id) {
-//        transactionalJourneyService.removeById(id);
-//    }
-//
-//    public void remove( final VehicleEntity vehicleEntity){
-//        transactionalVehicleService.remove(vehicleEntity);
-//    }
+    public void removeVehicle(final VehicleEntity vehicleEntity){
+        transactionalVehicleService.remove(vehicleEntity);
+    }
+    public void removeVehicleById(Long id){
+        transactionalVehicleService.removeById(id);
+    }
 
     // Stop manipulation
     public StopEntity createOrUpdateStop(final StopEntity stopEntity){
@@ -118,6 +115,12 @@ public class TicketClient {
         return transactionalStopService.findById(id,withDependencies);
     }
 
+    public void removeStop( final StopEntity stopEntity){
+        transactionalStopService.remove(stopEntity);
+    }
+    public void removeStopById(Long id){
+        transactionalStopService.removeById(id);
+    }
 
     //Vehicle seats manipulation
 
@@ -127,5 +130,9 @@ public class TicketClient {
 
     public Optional<VehicleSeatEntity> findVehicleSeatById(Long id,boolean withDependencies){
         return transactionalVehicleSeatService.findById(id,withDependencies);
+    }
+
+    public void removeVehicleSeat(VehicleSeatEntity vehicleSeatEntity){
+        transactionalVehicleSeatService.remove(vehicleSeatEntity);
     }
 }

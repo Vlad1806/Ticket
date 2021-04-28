@@ -16,7 +16,7 @@ public class TransactionalJourneyService{
 
 
     @Transactional
-    public JourneyEntity createorUpdateJourney(final JourneyEntity journeyEntity ){
+    public JourneyEntity createOrUpdateJourney(final JourneyEntity journeyEntity ){
         //if (Objects.isNull(journeyEntity)) throw new IllegalArgumentException("journeyEntity must be set for creation!");
 //        System.out.println("Create journey ");
 //        final JourneyEntity orUpdate = journeyRepository.createOrUpdate(journeyEntity);

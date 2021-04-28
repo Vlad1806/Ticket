@@ -38,7 +38,7 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>,ID ext
         return Optional.ofNullable(entityManager.find(entityClass, id));
     }
 
-    @SneakyThrows
+    //@SneakyThrows
     @Override
     public void removeById(ID id) {
 //        E entity  = entityClass.getDeclaredConstructor().newInstance();
