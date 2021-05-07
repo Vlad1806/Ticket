@@ -1,12 +1,13 @@
 package org.hillel.persistence.repository;
 
 import org.hillel.persistence.entity.JourneyEntity;
+import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.VehicleSeatEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 
 @Repository
 public class VehicleSeatRepository extends CommonRepository<VehicleSeatEntity,Long> {
@@ -19,13 +20,22 @@ public class VehicleSeatRepository extends CommonRepository<VehicleSeatEntity,Lo
     public VehicleSeatEntity createOrUpdate(VehicleSeatEntity entity) {
         VehicleEntity vehicleEntity = entity.getVehicle();
         JourneyEntity journeyEntity = entity.getJourney();
-        if (Objects.nonNull(vehicleEntity) && Objects.nonNull(journeyEntity)){
-            if (!entityManager.contains(vehicleEntity) && !entityManager.contains(journeyEntity)){
-                entity.setVehicle(vehicleEntity);
-                entity.setJourney(journeyEntity);
+        if (Objects.nonNull(vehicleEntity)){
+            if (!entityManager.contains(vehicleEntity)){
+                entity.setVehicle(entityManager.merge(vehicleEntity));
+            }
+        }
+        if (Objects.nonNull(journeyEntity)){
+            if (!entityManager.contains(journeyEntity)){
+                entity.setJourney(entityManager.merge(journeyEntity));
             }
         }
         return super.createOrUpdate(entity);
+    }
+
+    @Override
+    public Collection<VehicleSeatEntity> findAllAsNamed() {
+        return entityManager.createNamedQuery("findAllVehicleSeatsAsNamed",VehicleSeatEntity.class).getResultList();
     }
 
     @Override

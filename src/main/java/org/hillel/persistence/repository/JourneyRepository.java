@@ -3,12 +3,12 @@ package org.hillel.persistence.repository;
 import org.hibernate.Session;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.entity.VehicleSeatEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class JourneyRepository extends CommonRepository<JourneyEntity,Long>{
@@ -27,6 +27,12 @@ public class JourneyRepository extends CommonRepository<JourneyEntity,Long>{
         }
         return super.createOrUpdate(entity);
     }
+
+    public Collection<JourneyEntity> findAllJourneyAsNamed(){
+        return entityManager.createNamedQuery("findAllJourneyAsNamed",JourneyEntity.class).getResultList();
+    }
+
+
 
 //    public EntityManager getEntityManager(){
 //        return entityManager;

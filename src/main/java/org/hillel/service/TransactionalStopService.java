@@ -1,22 +1,16 @@
 package org.hillel.service;
 
-import org.hillel.Journey;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
-import org.hillel.persistence.entity.VehicleEntity;
-import org.hillel.persistence.repository.JourneyRepository;
 import org.hillel.persistence.repository.StopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Optional;
 
-@Service
-        //(value = "TransactionalStopService")
+@Service(value = "TransactionalStopService")
 public class TransactionalStopService {
 
     @Autowired
@@ -28,7 +22,7 @@ public class TransactionalStopService {
         return stopRepository.createOrUpdate(stopEntity);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     Optional<StopEntity> findById(Long id,boolean withDependencies){
         final Optional<StopEntity> stop = stopRepository.findById(id);
         if (withDependencies && stop.isPresent()){
@@ -48,6 +42,28 @@ public class TransactionalStopService {
         stopRepository.removeById(id);
     }
 
+
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAll(){
+        return stopRepository.findAll();
+    }
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAllAsNative(){
+        return stopRepository.findAllAsNative();
+    }
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAllAsNamed(){
+        return stopRepository.findAllAsNamed();
+
+    }
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAllAsCriteria(){
+        return stopRepository.findAllAsCriteria();
+    }
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAllAsStoredProcedure(){
+        return stopRepository.findAllAsStoredProcedure();
+    }
 
 //    @Transactional
 //    public Long createStop(final StopEntity stopEntity) {

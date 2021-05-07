@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hillel.persistence.entity.enums.DirectionType;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -19,6 +18,9 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllJourneyAsNamed",query = "from JourneyEntity")
+})
 @DynamicUpdate
 @DynamicInsert
 public class JourneyEntity extends AbstractModifyEntity<Long>{
@@ -63,16 +65,15 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
         this.vehicle = vehicle;
     }
 
-//    @OneToMany(mappedBy = "journey2",cascade = {CascadeType.PERSIST})
-//    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
-//
-//
-//    public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
-//        if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");
-//        if (Objects.isNull(vehicleSeats)) vehicleSeats = new ArrayList<>();
-//        vehicleSeats.add(vehicleSeat);
-//        vehicleSeat.addJourney(this);
-//    }
+    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
+
+    public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
+        if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");
+        if (Objects.isNull(vehicleSeats)) vehicleSeats = new ArrayList<>();
+        vehicleSeats.add(vehicleSeat);
+        vehicleSeat.addJourney(this);
+    }
 
 
     @Override
@@ -83,7 +84,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
                 .add("departure='" + departure + "'")
                 .add("arrival='" + arrival + "'")
                 .add("direction='" + direction + "'")
-                 .add("vehicle='" + vehicle + "'")
+                .add("vehicle='" + vehicle + "'")
                 .toString();
     }
 

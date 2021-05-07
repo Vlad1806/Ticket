@@ -54,18 +54,6 @@ public class TicketClient {
 //
 //        return journeyService.findByStations(stationFrom, stationTo);
 //    }
-//    @PostConstruct
-//    public void init() throws Exception {
-//        if (journeyService == null) throw new IllegalArgumentException("journeyService not init");
-//        else {
-//            System.out.println("@PostConstruct: " + systemMessage);
-//        }
-//    }
-//
-//    @PreDestroy
-//    public void destroy() throws Exception {
-//        System.out.println("destroy bean");
-//    }
 
     ///JourneyEntity manipulation
 
@@ -79,6 +67,21 @@ public class TicketClient {
         return id == null ? Optional.empty() : transactionalJourneyService.findById(id,withDependencies);
     }
 
+    public Collection<JourneyEntity> findAllJourney(){
+        return transactionalJourneyService.findAll();
+    }
+    public Collection<JourneyEntity> findAllJourneyAsNative(){
+        return transactionalJourneyService.findAllAsNative();
+    }
+    public Collection<JourneyEntity> findAllJourneyAsNamed(){
+        return transactionalJourneyService.findAllJourneyAsNamed();
+    }
+    public Collection<JourneyEntity>findAllJourneyAsCriteria(){
+        return transactionalJourneyService.findAllAsCriteria();
+    }
+    public Collection<JourneyEntity> findAllJourneyAsStoredProcedure(){
+        return transactionalJourneyService.findAllAsStoredProcedure();
+    }
 //    public void remove(JourneyEntity journey1) {
 //        transactionalJourneyService.remove(journey1);
 //    }
@@ -106,6 +109,32 @@ public class TicketClient {
         transactionalVehicleService.removeById(id);
     }
 
+    public Collection<VehicleEntity> findVehicleByIds(boolean withDependencies,Long ... ids){
+        final Collection<VehicleEntity> byIds = transactionalVehicleService.findByIds(withDependencies, ids);
+        return byIds;
+    }
+
+    public Collection<VehicleEntity> findAllVehicles(){
+        return transactionalVehicleService.findAll();
+    }
+    public Collection<VehicleEntity> findAllVehiclesAsNative(){
+        return transactionalVehicleService.findAllAsNative();
+    }
+    public Collection<VehicleEntity> findAllVehiclesAsNamed(){
+        return transactionalVehicleService.findAllAsNamed();
+    }
+
+    public Collection<VehicleEntity>findAllVehiclesAsCriteria(){
+        return transactionalVehicleService.findAllAsCriteria();
+    }
+    public Collection<VehicleEntity> findAllVehiclesAsStoredProcedure(){
+        return transactionalVehicleService.findAllAsStoredProcedure();
+    }
+
+    public Collection<VehicleEntity> findAllVehiclesByName(String name){
+        return transactionalVehicleService.findByName(name);
+    }
+
     // Stop manipulation
     public StopEntity createOrUpdateStop(final StopEntity stopEntity){
         return transactionalStopService.createOrUpdateStop(stopEntity);
@@ -122,6 +151,22 @@ public class TicketClient {
         transactionalStopService.removeById(id);
     }
 
+    public Collection<StopEntity>findAllStops(){
+        return transactionalStopService.findAll();
+    }
+    public Collection<StopEntity>findAllStopsAsNative(){
+        return transactionalStopService.findAllAsNative();
+    }
+    public Collection<StopEntity> findAllStopsAsNamed(){
+        return transactionalStopService.findAllAsNamed();
+    }
+    public Collection<StopEntity>findAllStopsAsCriteria(){
+        return transactionalStopService.findAllAsCriteria();
+    }
+    public Collection<StopEntity> findAllStopsAsStoredProcedure(){
+        return transactionalStopService.findAllAsStoredProcedure();
+    }
+
     //Vehicle seats manipulation
 
     public VehicleSeatEntity createOrUpdateVehicleSeat(VehicleSeatEntity vehicleSeatEntity){
@@ -132,7 +177,25 @@ public class TicketClient {
         return transactionalVehicleSeatService.findById(id,withDependencies);
     }
 
+    public Collection<VehicleSeatEntity> findAllVehicleSeats(){
+        return transactionalVehicleSeatService.findAll();
+    }
+    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsNative(){
+        return transactionalVehicleSeatService.findAllAsNative();
+    }
+
+    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsNamed(){
+        return transactionalVehicleSeatService.findAllAsNamed();
+    }
+    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsCriteria(){
+        return transactionalVehicleSeatService.findAllAsCriteria();
+    }
+    public Collection<VehicleSeatEntity>  findAllVehicleSeatsAsStoredProcedure(){
+        return transactionalVehicleSeatService.findAllAsStoredProcedure();
+    }
+
     public void removeVehicleSeat(VehicleSeatEntity vehicleSeatEntity){
         transactionalVehicleSeatService.remove(vehicleSeatEntity);
     }
+
 }

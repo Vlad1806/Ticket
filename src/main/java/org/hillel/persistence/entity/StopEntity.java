@@ -16,6 +16,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "findAllStopAsNamed", query = "from StopEntity")
+}
+)
 @DynamicUpdate
 @DynamicInsert
 public class StopEntity extends AbstractModifyEntity<Long>{

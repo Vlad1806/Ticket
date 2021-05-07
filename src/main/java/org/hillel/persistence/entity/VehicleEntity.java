@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -17,10 +19,24 @@ import java.util.*;
 @NoArgsConstructor
 @DynamicUpdate
 @DynamicInsert
+@NamedQueries(value = {
+        @NamedQuery(name = "findAllVehicleAsNamed",query = "from VehicleEntity")
+})
+@NamedStoredProcedureQueries(
+        @NamedStoredProcedureQuery(
+                name = "findAllVehicle",
+                procedureName = "find_all_vehicles",
+                parameters = @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR,type = Class.class),
+                resultClasses = VehicleEntity.class
+        )
+)
 public class VehicleEntity extends AbstractModifyEntity<Long> {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "max_seats")
+    private int maxSeats;
 
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     List<JourneyEntity> journeys = new ArrayList<>();
@@ -36,12 +52,6 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY,orphanRemoval = true)
     private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
 
-    public void addSeat(VehicleSeatEntity seatEntity){
-        if (seatEntity == null) return;
-        if (vehicleSeats == null) vehicleSeats = new ArrayList<>();
-        vehicleSeats.add(seatEntity);
-        seatEntity.setVehicle(this);
-    }
 
     public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
         if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");
@@ -62,7 +72,9 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @Override
     public String toString() {
         return "VehicleEntity{" +
+                "id='" + getId() + '\'' +
                 "name='" + name + '\'' +
+                ", vehicleSeats=" + vehicleSeats +
                 '}';
     }
 }

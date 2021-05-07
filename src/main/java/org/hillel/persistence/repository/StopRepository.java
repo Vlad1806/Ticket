@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 import java.util.Objects;
 
 @Repository
@@ -40,6 +41,14 @@ public class StopRepository extends CommonRepository<StopEntity,Long>{
         stopEntity.removeAllJourneys();
         super.removeById(id);
     }
+
+    /* Homework 5*/
+
+    @Override
+    public Collection<StopEntity> findAllAsNamed() {
+        return entityManager.createNamedQuery("findAllStopAsNamed",StopEntity.class).getResultList();
+    }
+
     ///Lesson 5 mapping_2
 //    @PersistenceContext
 //    private EntityManager entityManager;
