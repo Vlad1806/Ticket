@@ -128,7 +128,7 @@ public class Starter {
 //        StopEntity
 //        System.out.println(ticketClient.findAllStops());
 //        System.out.println(ticketClient.findAllStopAsNative());
-//        System.out.println(ticketClient.findAllStopAsNamed());
+//        System.out.println(ticketClient.findAllStopsAsNamed());
 //        System.out.println(ticketClient.findAllStopsAsCriteria());
 //        System.out.println(ticketClient.findAllStopsAsStoredProcedure());
 

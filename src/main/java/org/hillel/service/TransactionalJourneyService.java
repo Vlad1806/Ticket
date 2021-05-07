@@ -107,7 +107,7 @@ public class TransactionalJourneyService{
     }
     @Transactional(readOnly = true)
     public Collection<JourneyEntity> findAllJourneyAsNamed(){
-        final Collection<JourneyEntity> allJourneyAsNamed = journeyRepository.findAllJourneyAsNamed();
+        final Collection<JourneyEntity> allJourneyAsNamed = journeyRepository.findAllAsNamed();
         journeyDependencies(allJourneyAsNamed);
         return allJourneyAsNamed;
     }

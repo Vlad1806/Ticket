@@ -34,11 +34,6 @@ public class VehicleSeatRepository extends CommonRepository<VehicleSeatEntity,Lo
     }
 
     @Override
-    public Collection<VehicleSeatEntity> findAllAsNamed() {
-        return entityManager.createNamedQuery("findAllVehicleSeatsAsNamed",VehicleSeatEntity.class).getResultList();
-    }
-
-    @Override
     public void removeById(Long aLong) {
         super.removeById(aLong);
     }

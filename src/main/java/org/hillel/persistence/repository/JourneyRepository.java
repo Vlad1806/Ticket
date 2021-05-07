@@ -28,11 +28,6 @@ public class JourneyRepository extends CommonRepository<JourneyEntity,Long>{
         return super.createOrUpdate(entity);
     }
 
-    public Collection<JourneyEntity> findAllJourneyAsNamed(){
-        return entityManager.createNamedQuery("findAllJourneyAsNamed",JourneyEntity.class).getResultList();
-    }
-
-
 
 //    public EntityManager getEntityManager(){
 //        return entityManager;

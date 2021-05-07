@@ -44,10 +44,6 @@ public class StopRepository extends CommonRepository<StopEntity,Long>{
 
     /* Homework 5*/
 
-    @Override
-    public Collection<StopEntity> findAllAsNamed() {
-        return entityManager.createNamedQuery("findAllStopAsNamed",StopEntity.class).getResultList();
-    }
 
     ///Lesson 5 mapping_2
 //    @PersistenceContext

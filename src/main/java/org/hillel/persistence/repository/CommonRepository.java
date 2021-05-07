@@ -5,10 +5,7 @@ import org.hibernate.Session;
 import org.hillel.persistence.entity.AbstractModifyEntity;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -138,7 +135,9 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>,ID ext
 
     @Override
     public Collection<E> findAllAsNamed(){
-        return entityManager.createNamedQuery("findAll",entityClass).getResultList();
+        final List<E> resultList = entityManager.createNamedQuery(entityClass.getAnnotation(NamedQueries.class).
+                value()[0].name(), entityClass).getResultList();
+        return resultList;
     }
 
     @Override

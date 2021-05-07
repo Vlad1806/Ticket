@@ -67,8 +67,4 @@ public class VehicleRepository extends CommonRepository<VehicleEntity,Long> {
                 .getResultList();
     }
 
-    @Override
-    public Collection<VehicleEntity> findAllAsNamed() {
-        return entityManager.createNamedQuery("findAllVehicleAsNamed",VehicleEntity.class).getResultList();
-    }
 }
