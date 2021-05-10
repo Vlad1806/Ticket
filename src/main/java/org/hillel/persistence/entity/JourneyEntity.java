@@ -63,6 +63,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
 
     public void addVehicle(final VehicleEntity vehicle){
         this.vehicle = vehicle;
+        vehicle.addJourney(this);
     }
 
     @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST})

@@ -3,7 +3,7 @@ package org.hillel.persistence.repository;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.query.criteria.internal.OrderImpl;
-import org.hillel.persistence.entity.AbstractModifyEntity;
+import org.hillel.persistence.entity.AbstractEntity;
 import org.hillel.persistence.entity.JourneyEntity_;
 import org.hillel.persistence.entity.enums.SqlType;
 import org.springframework.util.Assert;
@@ -13,7 +13,7 @@ import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class CommonRepository<E extends AbstractModifyEntity<ID>,ID extends Serializable> implements GenericRepository<E, ID> {
+public abstract class CommonRepository<E extends AbstractEntity<ID>, ID extends Serializable> implements GenericRepository<E, ID>{
 
     @PersistenceContext
     protected EntityManager entityManager;

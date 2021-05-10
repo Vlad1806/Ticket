@@ -152,9 +152,9 @@ public class TransactionalVehicleService{
         return allAsStoredProcedure;
     }
 
-
-    @Autowired
-    private NewTransactionalVehicleService newTransactionalVehicleService;
+//
+//    @Autowired
+//    private NewTransactionalVehicleService newTransactionalVehicleService;
 
     @Transactional(readOnly = true)
 //            (noRollbackFor = IllegalArgumentException.class)

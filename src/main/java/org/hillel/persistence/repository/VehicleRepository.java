@@ -1,14 +1,8 @@
 package org.hillel.persistence.repository;
-
-
-import org.hibernate.query.criteria.internal.OrderImpl;
-import org.hillel.persistence.entity.JourneyEntity_;
-import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
-import org.hillel.persistence.entity.VehicleEntity_;
+
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.*;
 import java.util.Collection;
 import java.util.Optional;
 
