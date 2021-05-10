@@ -1,8 +1,10 @@
 package org.hillel.service;
+import lombok.NoArgsConstructor;
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
 import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.VehicleSeatEntity;
+import org.hillel.persistence.entity.enums.SqlType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +14,8 @@ import org.springframework.util.Assert;
 import java.util.*;
 
 @Component
-public class TicketClient {
+@NoArgsConstructor
+public class TicketClient<E> {
 
     @Autowired
     @Qualifier("dbJourneyServiceImpl")
@@ -35,10 +38,7 @@ public class TicketClient {
     @Value("${system.message:default value}")
     private String systemMessage;
 
-    public TicketClient() {
-    }
-
-//
+    //
 //    public Collection<Journey> find(String stationFrom, String stationTo, LocalDate dateFrom, LocalDate dateTo) {
 //        if (stationFrom == null) throw new IllegalArgumentException("station from must be set");
 //        if (stationTo == null) throw new IllegalArgumentException("station to must be set");
@@ -70,9 +70,16 @@ public class TicketClient {
     public Collection<JourneyEntity> findAllJourney(){
         return transactionalJourneyService.findAll();
     }
+
+    public Collection<JourneyEntity> findAllJourney(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+        return transactionalJourneyService.findAll(sql,startPage,sizePage,field,orderType);
+    }
+
     public Collection<JourneyEntity> findAllJourneyAsNative(){
         return transactionalJourneyService.findAllAsNative();
     }
+
+
     public Collection<JourneyEntity> findAllJourneyAsNamed(){
         return transactionalJourneyService.findAllJourneyAsNamed();
     }
@@ -117,9 +124,26 @@ public class TicketClient {
     public Collection<VehicleEntity> findAllVehicles(){
         return transactionalVehicleService.findAll();
     }
+
+    public Collection<VehicleEntity> findAllVehicles(String sort, boolean typeSort){
+        return transactionalVehicleService.findAll();
+    }
+
+    public Collection<VehicleEntity> findAllVehicles(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+        return transactionalVehicleService.findAll(sql,startPage,sizePage,field,orderType);
+    }
+
+    public Collection<VehicleEntity> findVehicleByMinSeats(){
+        return transactionalVehicleService.findVehicleByMinSeats();
+    }
+    public Collection<VehicleEntity> findVehicleByMaxSeats(){
+        return transactionalVehicleService.findVehicleByMaxSeats();
+    }
+
     public Collection<VehicleEntity> findAllVehiclesAsNative(){
         return transactionalVehicleService.findAllAsNative();
     }
+
     public Collection<VehicleEntity> findAllVehiclesAsNamed(){
         return transactionalVehicleService.findAllAsNamed();
     }
@@ -154,6 +178,11 @@ public class TicketClient {
     public Collection<StopEntity>findAllStops(){
         return transactionalStopService.findAll();
     }
+
+    public Collection<StopEntity> findAllStops(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+        return transactionalStopService.findAll(sql,startPage,sizePage,field,orderType);
+    }
+
     public Collection<StopEntity>findAllStopsAsNative(){
         return transactionalStopService.findAllAsNative();
     }
@@ -180,6 +209,11 @@ public class TicketClient {
     public Collection<VehicleSeatEntity> findAllVehicleSeats(){
         return transactionalVehicleSeatService.findAll();
     }
+
+    public Collection<VehicleSeatEntity> findAllVehicleSeats(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+        return transactionalVehicleSeatService.findAll(sql,startPage,sizePage,field,orderType);
+    }
+
     public Collection<VehicleSeatEntity> findAllVehicleSeatsAsNative(){
         return transactionalVehicleSeatService.findAllAsNative();
     }

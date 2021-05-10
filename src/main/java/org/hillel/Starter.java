@@ -2,6 +2,7 @@ package org.hillel;
 import org.hillel.config.RootConfig;
 import org.hillel.persistence.entity.*;
 import org.hillel.persistence.entity.enums.DirectionType;
+import org.hillel.persistence.entity.enums.SqlType;
 import org.hillel.service.TicketClient;
 import org.springframework.beans.BeansException;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Starter {
-    public static void main(String[] args) throws BeansException {
+    public static void main(String[] args) throws BeansException, NoSuchFieldException {
 
         //final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("common-beans.xml");
         final ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RootConfig.class);
@@ -62,19 +63,23 @@ public class Starter {
         ticketClient.createOrUpdateJourney(journey2);
 
         //Create Vehicle seats
-        List<VehicleSeatEntity> Vehicle1seats = buildVehicleSeatEntity(journey1,vehicle1);
+        List<VehicleSeatEntity> vehicle1seats = buildVehicleSeatEntity(journey1,vehicle1);
 
-        for (int i = 0; i < Vehicle1seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(Vehicle1seats.get(i));
+        for (int i = 0; i < vehicle1seats.size(); i++) {
+            vehicle1seats.get(i).setBooked(true);
+            ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(i));
         }
-        vehicle1.setVehicleSeats(Vehicle1seats);
-        journey1.setVehicleSeats(Vehicle1seats);
-        List<VehicleSeatEntity> Vehicle2seats = buildVehicleSeatEntity(journey2,vehicle2);
-        for (int i = 0; i < Vehicle2seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(Vehicle2seats.get(i));
+        vehicle1.setVehicleSeats(vehicle1seats);
+        journey1.setVehicleSeats(vehicle1seats);
+
+        List<VehicleSeatEntity> vehicle2seats = buildVehicleSeatEntity(journey2,vehicle2);
+
+        for (int i = 0; i < vehicle2seats.size(); i++) {
+            vehicle2seats.get(i).setBooked(true);
+            ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(i));
         }
-        vehicle2.setVehicleSeats(Vehicle2seats);
-        journey2.setVehicleSeats(Vehicle2seats);
+        vehicle2.setVehicleSeats(vehicle2seats);
+        journey2.setVehicleSeats(vehicle2seats);
         journey1.setActive(false);
 
         System.out.println(vehicle1);
@@ -82,14 +87,16 @@ public class Starter {
         vehicle1.setName("bus_3");
         vehicle2.setActive(false);
 //
-        Vehicle1seats.get(5).setBooked(true);
-        Vehicle2seats.get(7).setBooked(true);
+        vehicle1seats.get(5).setBooked(false);
+        vehicle1seats.get(6).setBooked(false);
+
+        vehicle2seats.get(7).setBooked(false);
 //
-        for (int i = 0; i < Vehicle1seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(Vehicle1seats.get(i));
+        for (int i = 0; i < vehicle1seats.size(); i++) {
+            ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(i));
         }
-        for (int i = 0; i < Vehicle2seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(Vehicle2seats.get(i));
+        for (int i = 0; i < vehicle2seats.size(); i++) {
+            ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(i));
         }
 
         /*  Удаление  Vehicle */ //работает
@@ -119,8 +126,43 @@ public class Starter {
 
         /*HomeWork 5*/
 //        JourneyEntity
-//        System.out.println(ticketClient.findAllJourney());
+        System.out.println(ticketClient.findAllJourney(SqlType.HQL,0,5,JourneyEntity_.ID,true));
+        System.out.println("\n");
+        journey1.setActive(false);
+        ticketClient.createOrUpdateJourney(journey1);
+        System.out.println("Active: " + ticketClient.findAllJourney(SqlType.SQL,0,5,JourneyEntity_.ACTIVE,false));
+        System.out.println("\n");
+        System.out.println("Id: " + ticketClient.findAllJourney(SqlType.CRITERIA,0,5,JourneyEntity_.ID,false));
+
+        System.out.println("\n");
+        System.out.println("Id procedure: " + ticketClient.findAllJourney(SqlType.STORE_PROCEDURE,0,5,JourneyEntity_.ARRIVAL,false));
+
+
+        System.out.println("\n");
+        System.out.println("Id stop procedure: " + ticketClient.findAllStops(SqlType.HQL,0,5,StopEntity_.ID,false));
+
+        System.out.println("\n");
+        System.out.println("Id vehicle procedure: " + ticketClient.findAllVehicles(SqlType.HQL,1,2,VehicleEntity_.ID,false));
+
+        System.out.println("\n");
+        System.out.println("Id vehicleSeats procedure: " + ticketClient.findAllVehicleSeats(SqlType.HQL,0,10,VehicleSeatEntity_.ID,false));
+
+        System.out.println("\n");
+        System.out.println("Id min vehicle procedure: " + ticketClient.findVehicleByMinSeats());
+
+        System.out.println("\n");
+        System.out.println("Id max vehicle procedure: " + ticketClient.findVehicleByMaxSeats());
+
+
+
+
+
+
+
+
+
 //        System.out.println(ticketClient.findAllJourneyAsNative());
+
 //        System.out.println(ticketClient.findAllJourneyAsNamed());
 //        System.out.println(ticketClient.findAllJourneyAsCriteria());
 //        System.out.println(ticketClient.findAllJourneyAsStoredProcedure());
@@ -144,7 +186,7 @@ public class Starter {
 //        System.out.println(ticketClient.findAllVehicleAsNative());
 //        System.out.println(ticketClient.findAllVehiclesAsNamed());
 //        System.out.println(ticketClient.findAllVehiclesAsCriteria());
-        System.out.println(ticketClient.findAllVehiclesAsStoredProcedure());
+//        System.out.println(ticketClient.findAllVehiclesAsStoredProcedure());
     }
 
     private static JourneyEntity buildJourney(final String stationFrom, final String stationTo, final Instant departure, final Instant arrival,DirectionType direction,boolean active) {

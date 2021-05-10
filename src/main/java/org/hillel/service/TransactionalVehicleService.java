@@ -2,6 +2,8 @@ package org.hillel.service;
 
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.entity.enums.SqlType;
+import org.hillel.persistence.repository.CommonRepository;
 import org.hillel.persistence.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TransactionalVehicleService {
+public class TransactionalVehicleService{
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
 
 //    @Autowired
 //    private TransactionTemplate transactionTemplate;
@@ -62,13 +65,13 @@ public class TransactionalVehicleService {
         }
     }
 
+
     @Transactional(readOnly = true)
     public Optional<VehicleEntity> findById(Long id,boolean withDependencies){
         final Optional<VehicleEntity> vehicle = vehicleRepository.findById(id);
         if (!vehicle.isPresent()) return vehicle;
         if (!withDependencies) return vehicle;
-        final VehicleEntity vehicleEntity = vehicle.get();
-        vehicleEntity.getVehicleSeats().size();
+        vehicle.get().getVehicleSeats().size();
         return vehicle;
     }
 
@@ -95,6 +98,28 @@ public class TransactionalVehicleService {
     public Collection<VehicleEntity> findAll(){
         final Collection<VehicleEntity> all = vehicleRepository.findAll();
         if (all.isEmpty()) return all;
+        vehicleDependencies(all);
+        return all;
+    }
+
+    /*HomeWork 6*/
+    @Transactional(readOnly = true)
+    public Collection<VehicleEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){
+        final Collection<VehicleEntity> all = vehicleRepository.findAll(sql,startPage,sizePage,field,orderType);
+        vehicleDependencies(all);
+        return all;
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<VehicleEntity> findVehicleByMinSeats(){
+        final Collection<VehicleEntity> all = vehicleRepository.findVehicleByMinSeats();
+        vehicleDependencies(all);
+        return all;
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<VehicleEntity> findVehicleByMaxSeats(){
+        final Collection<VehicleEntity> all = vehicleRepository.findVehicleByMaxSeats();
         vehicleDependencies(all);
         return all;
     }

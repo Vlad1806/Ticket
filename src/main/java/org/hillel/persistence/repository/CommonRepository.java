@@ -2,16 +2,16 @@ package org.hillel.persistence.repository;
 
 import lombok.SneakyThrows;
 import org.hibernate.Session;
+import org.hibernate.query.criteria.internal.OrderImpl;
 import org.hillel.persistence.entity.AbstractModifyEntity;
+import org.hillel.persistence.entity.JourneyEntity_;
+import org.hillel.persistence.entity.enums.SqlType;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class CommonRepository<E extends AbstractModifyEntity<ID>,ID extends Serializable> implements GenericRepository<E, ID> {
 
@@ -123,14 +123,83 @@ public abstract class CommonRepository<E extends AbstractModifyEntity<ID>,ID ext
 //                registerStoredProcedureParameter(2,String.class,ParameterMode.IN).
 //                setParameter(2,entityClass.getAnnotation(Table.class).name()).getResultList();
 
-        return entityManager.createQuery("from " + entityClass.getSimpleName(),entityClass).getResultList();
+        return entityManager.createQuery("from " + entityClass.getSimpleName()
+                ,entityClass).getResultList();
+    }
+
+
+
+    public Collection<E> findAll(SqlType sql,int startPage, int sizePage, String field, boolean orderType) {
+//        return entityManager.createQuery("from " + entityClass.getSimpleName(),entityClass).getResultList();
+//        return entityManager.createNativeQuery("Select * from " +
+//                entityClass.getAnnotation(Table.class).name(),entityClass).getResultList(); //
+//        final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        final CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
+//        final Root<E> from = query.from(entityClass);
+//        return entityManager.createQuery(query.select(from)).getResultList();
+//        return entityManager.createStoredProcedureQuery("find_all",entityClass).
+//        registerStoredProcedureParameter(1,Class.class, ParameterMode.REF_CURSOR).
+//                registerStoredProcedureParameter(2,String.class,ParameterMode.IN).
+//                setParameter(2,entityClass.getAnnotation(Table.class).name()).getResultList();
+        switch (sql){
+            case HQL:{
+                return entityManager.createQuery("from " + entityClass.getSimpleName() + " e " +
+                        " order by " +  field + (orderType ? " asc" : " desc"),entityClass)
+                        .setFirstResult(startPage)
+                        .setMaxResults(sizePage)
+                        .getResultList();
+            }
+            case SQL:{
+                return entityManager.createNativeQuery("SELECT * from " +
+                                entityClass.getAnnotation(Table.class).name() +
+                        " order by " +  field + (orderType ? " asc" : " desc"),entityClass)
+                        .setFirstResult(startPage)
+                        .setMaxResults(sizePage)
+                        .getResultList();
+            }
+            case NAMED_QUERY:{
+               return entityManager.createNamedQuery(entityClass.getAnnotation(NamedQueries.class).
+                        value()[0].name() +
+                       " order by " +  field + (orderType ? " asc" : " desc"), entityClass)
+                       .setFirstResult(startPage)
+                       .setMaxResults(sizePage)
+                       .getResultList();
+            }
+            case CRITERIA:{
+                CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+                CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
+                Root<E> from = query.from(entityClass);
+                Order orderBy = new OrderImpl(from.get(field),false);
+                return entityManager.createQuery(query.select(from).orderBy(orderBy))
+                        .setFirstResult(startPage)
+                        .setMaxResults(sizePage)
+                        .getResultList();
+            }
+            case STORE_PROCEDURE:{
+                return entityManager.createStoredProcedureQuery("find_all_criteria",entityClass)
+                        .registerStoredProcedureParameter(1,Class.class,ParameterMode.REF_CURSOR)
+                        .registerStoredProcedureParameter(2,String.class,ParameterMode.IN)
+                        .registerStoredProcedureParameter(3,String.class,ParameterMode.IN)
+                        .registerStoredProcedureParameter(4,String.class,ParameterMode.IN)
+                        .registerStoredProcedureParameter(5,Integer.class,ParameterMode.IN)
+                        .registerStoredProcedureParameter(6,Integer.class,ParameterMode.IN)
+                        .setParameter(2,entityClass.getAnnotation(Table.class).name())
+                        .setParameter(3,field)
+                        .setParameter(4,(orderType ? " asc" : " desc"))
+                        .setParameter(5,sizePage)
+                        .setParameter(6,startPage)
+                        .getResultList();
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
     }
 
 
     @Override
     public Collection<E> findAllAsNative(){
         return entityManager.createNativeQuery("SELECT * from " +
-                entityClass.getAnnotation(Table.class).name(),entityClass).getResultList();
+                entityClass.getAnnotation(Table.class).name()
+                ,entityClass).getResultList();
     }
 
     @Override

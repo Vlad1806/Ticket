@@ -2,6 +2,8 @@ package org.hillel.service;
 
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.VehicleEntity;
+import org.hillel.persistence.entity.enums.SqlType;
+import org.hillel.persistence.repository.CommonRepository;
 import org.hillel.persistence.repository.JourneyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,7 +92,13 @@ public class TransactionalJourneyService{
 //      all.forEach(x->x.getVehicle().getVehicleSeats().size());
         return all;
     }
-
+    /*HomeWork 6*/
+    @Transactional(readOnly = true)
+    public Collection<JourneyEntity> findAll(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+        final Collection<JourneyEntity> all = journeyRepository.findAll(sql,startPage,sizePage,field,orderType);
+        journeyDependencies(all);
+        return all;
+    }
 
     @Transactional(readOnly = true)
     public Collection<JourneyEntity> findAllAsNative(){
@@ -99,12 +107,13 @@ public class TransactionalJourneyService{
         return allAsNative;
     }
 
-    private void journeyDependencies(Collection<JourneyEntity> all){
+    protected void journeyDependencies(Collection<JourneyEntity> all){
         for (JourneyEntity entity2 :all) {
             entity2.getVehicle();
             entity2.getVehicle().getVehicleSeats().size();
         }
     }
+
     @Transactional(readOnly = true)
     public Collection<JourneyEntity> findAllJourneyAsNamed(){
         final Collection<JourneyEntity> allJourneyAsNamed = journeyRepository.findAllAsNamed();

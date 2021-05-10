@@ -2,6 +2,7 @@ package org.hillel.service;
 
 import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.StopEntity;
+import org.hillel.persistence.entity.enums.SqlType;
 import org.hillel.persistence.repository.StopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,16 @@ public class TransactionalStopService {
     public Collection<StopEntity> findAll(){
         return stopRepository.findAll();
     }
+
+    /*HomeWork 6*/
+    @Transactional(readOnly = true)
+    public Collection<StopEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){
+        final Collection<StopEntity> all = stopRepository.findAll(sql,startPage,sizePage,field,orderType);
+        return all;
+    }
+
+
+
     @Transactional(readOnly = true)
     public Collection<StopEntity> findAllAsNative(){
         return stopRepository.findAllAsNative();

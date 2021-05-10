@@ -61,6 +61,8 @@ public class StopEntity extends AbstractModifyEntity<Long>{
     @Override
     public String toString() {
         return "StopEntity{" +
+                "id=" + getId() +
+                "active=" + isActive() +
                 "commonInfo=" + commonInfo +
                 ", additionalInfo=" + additionalInfo +
                 ", applyToJourneyBuild=" + applyToJourneyBuild +

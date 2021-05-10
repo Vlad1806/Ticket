@@ -56,6 +56,8 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
     @Override
     public String toString() {
         return "VehicleSeatEntity{" +
+                ", id=" + getId() +
+                ", active=" + isActive() +
                 ", seatNumber=" + seatNumber +
                 ", booked=" + booked +
                 '}';

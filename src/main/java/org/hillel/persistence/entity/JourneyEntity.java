@@ -65,7 +65,7 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
         this.vehicle = vehicle;
     }
 
-    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST})
     private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
 
     public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
@@ -79,6 +79,8 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
     @Override
     public String toString() {
         return new StringJoiner(",",JourneyEntity.class.getSimpleName() + "[","]")
+                .add("id='" + getId() + "'")
+                .add("active='" + isActive() + "'")
                 .add("stationFrom='" + stationFrom + "'")
                 .add("stationTo='" + stationTo + "'")
                 .add("departure='" + departure + "'")
