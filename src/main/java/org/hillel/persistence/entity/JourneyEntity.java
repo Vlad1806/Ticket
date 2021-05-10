@@ -59,18 +59,19 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
 
     public void addVehicle(final VehicleEntity vehicle){
         this.vehicle = vehicle;
+        vehicle.addJourney(this);
     }
-//
-//    @OneToMany(mappedBy = "journey2",cascade = {CascadeType.PERSIST})
-//    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
-//
-//
-//    public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
-//        if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");
-//        if (Objects.isNull(vehicleSeats)) vehicleSeats = new ArrayList<>();
-//        vehicleSeats.add(vehicleSeat);
-//        vehicleSeat.addJourney(this);
-//    }
+
+    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST})
+    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
+
+
+    public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
+        if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");
+        if (Objects.isNull(vehicleSeats)) vehicleSeats = new ArrayList<>();
+        vehicleSeats.add(vehicleSeat);
+        vehicleSeat.addJourney(this);
+    }
 
 
 

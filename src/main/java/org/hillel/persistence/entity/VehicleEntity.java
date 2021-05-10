@@ -25,12 +25,13 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     List<JourneyEntity> journeys = new ArrayList<>();
 //    Set<JourneyEntity> journeys = new HashSet<>();
+
     public void addJourney(final JourneyEntity journeyEntity){
         if (journeyEntity == null) {
             journeys = new ArrayList<>();
         }
         journeys.add(journeyEntity);
-        journeyEntity.addVehicle(this);
+        journeyEntity.setVehicle(this);
     }
 
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
@@ -42,6 +43,8 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
         vehicleSeats.add(seatEntity);
         seatEntity.setVehicle(this);
     }
+
+
 
     public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){
         if (Objects.isNull(vehicleSeat)) throw new ArithmeticException("VehicleSeat must be set");

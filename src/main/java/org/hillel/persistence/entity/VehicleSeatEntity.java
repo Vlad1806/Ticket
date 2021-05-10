@@ -26,8 +26,10 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
     @JoinColumn(name = "journey_id", nullable = false)
     private JourneyEntity journey;
 
-    @Column(name = "free_seats")
-    private Integer freeSeats;
+    @Column(name = "free_seats",nullable = false)
+    private int freeSeats;
+    @Id
+    private Long id;
 
     public void addVehicle(final VehicleEntity vehicle){
         if (Objects.isNull(vehicle)) throw new IllegalArgumentException("Vehicle must be set!");
@@ -47,4 +49,5 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
                 ", freeSeats=" + freeSeats +
                 '}';
     }
+
 }
