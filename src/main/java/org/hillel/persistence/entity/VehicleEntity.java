@@ -30,7 +30,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
             journeys = new ArrayList<>();
         }
         journeys.add(journeyEntity);
-        journeyEntity.addVehicle(this);
+        journeyEntity.setVehicle(this);
     }
 
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY,orphanRemoval = true)

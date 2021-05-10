@@ -28,7 +28,7 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
     private JourneyEntity journey;
 
     @Column(name = "free_seats")
-    private Integer freeSeats;
+    private int freeSeats;
 
     public void addVehicle(final VehicleEntity vehicle){
         if (Objects.isNull(vehicle)) throw new IllegalArgumentException("Vehicle must be set!");

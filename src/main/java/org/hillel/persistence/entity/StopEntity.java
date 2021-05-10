@@ -32,6 +32,8 @@ public class StopEntity extends AbstractModifyEntity<Long>{
 
     @Transient
     private boolean applyToJourneyBuild;
+    @Id
+    private Long id;
 
     public void addStopAdditionalInfo(StopAdditionalInfoEntity stopAdditionalInfo){
         if (stopAdditionalInfo == null) {
