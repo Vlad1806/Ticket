@@ -85,11 +85,33 @@ public class TransactionalJourneyService{
 
     /*HomeWork 5*/
     @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAll(){
-        final Collection<JourneyEntity> all = journeyRepository.findAll();
+    public Collection<JourneyEntity> findAll(SqlType sqlType){
+        Collection<JourneyEntity> all;
+        switch (sqlType){
+            case HQL:{
+                all = journeyRepository.findAll();
+                break;
+            }
+            case SQL: {
+                all = journeyRepository.findAllAsNative();
+                break;
+            }
+            case NAMED_QUERY:{
+                all = journeyRepository.findAllAsNamed();
+                break;
+            }
+            case STORE_PROCEDURE:{
+                all = journeyRepository.findAllAsStoredProcedure();
+                break;
+            }
+            case CRITERIA:{
+                all = journeyRepository.findAllAsCriteria();
+                break;
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
+        if (all.isEmpty()) return all;
         journeyDependencies(all);
-//      all.forEach((x)->x.getVehicle());
-//      all.forEach(x->x.getVehicle().getVehicleSeats().size());
         return all;
     }
     /*HomeWork 6*/
@@ -100,12 +122,6 @@ public class TransactionalJourneyService{
         return all;
     }
 
-    @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAllAsNative(){
-        final Collection<JourneyEntity> allAsNative = journeyRepository.findAllAsNative();
-        journeyDependencies(allAsNative);
-        return allAsNative;
-    }
 
     protected void journeyDependencies(Collection<JourneyEntity> all){
         for (JourneyEntity entity2 :all) {
@@ -113,29 +129,6 @@ public class TransactionalJourneyService{
             entity2.getVehicle().getVehicleSeats().size();
         }
     }
-
-    @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAllJourneyAsNamed(){
-        final Collection<JourneyEntity> allJourneyAsNamed = journeyRepository.findAllAsNamed();
-        journeyDependencies(allJourneyAsNamed);
-        return allJourneyAsNamed;
-    }
-
-
-    @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAllAsCriteria(){
-        final Collection<JourneyEntity> allAsCriteria = journeyRepository.findAllAsCriteria();
-        journeyDependencies(allAsCriteria);
-        return allAsCriteria;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAllAsStoredProcedure(){
-        final Collection<JourneyEntity> allAsStoredProcedure = journeyRepository.findAllAsStoredProcedure();
-        journeyDependencies(allAsStoredProcedure);
-        return allAsStoredProcedure;
-    }
-
 }
 
 

@@ -95,8 +95,31 @@ public class TransactionalVehicleService{
     }
 
     @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAll(){
-        final Collection<VehicleEntity> all = vehicleRepository.findAll();
+    public Collection<VehicleEntity> findAll(SqlType sqlType){
+        Collection<VehicleEntity> all;
+        switch (sqlType){
+            case HQL:{
+                all = vehicleRepository.findAll();
+                break;
+            }
+            case SQL: {
+                all = vehicleRepository.findAllAsNative();
+                break;
+            }
+            case NAMED_QUERY:{
+                all = vehicleRepository.findAllAsNamed();
+                break;
+            }
+            case STORE_PROCEDURE:{
+                all = vehicleRepository.findAllAsStoredProcedure();
+                break;
+            }
+            case CRITERIA:{
+                all = vehicleRepository.findAllAsCriteria();
+                break;
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
         if (all.isEmpty()) return all;
         vehicleDependencies(all);
         return all;
@@ -124,33 +147,7 @@ public class TransactionalVehicleService{
         return all;
     }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsNative(){
-        final Collection<VehicleEntity> allAsNative = vehicleRepository.findAllAsNative();
-        vehicleDependencies(allAsNative);
-        return allAsNative;
-    }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsNamed(){
-        final Collection<VehicleEntity> allVehicleAsNamed = vehicleRepository.findAllAsNamed();
-        vehicleDependencies(allVehicleAsNamed);
-        return allVehicleAsNamed;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsCriteria(){
-        final Collection<VehicleEntity> allAsCriteria = vehicleRepository.findAllAsCriteria();
-        vehicleDependencies(allAsCriteria);
-        return allAsCriteria;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsStoredProcedure(){
-        final Collection<VehicleEntity> allAsStoredProcedure = vehicleRepository.findAllAsStoredProcedure();
-        vehicleDependencies(allAsStoredProcedure);
-        return allAsStoredProcedure;
-    }
 
 //
 //    @Autowired

@@ -35,38 +35,38 @@ public class TransactionalVehicleSeatService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAll(){
-        return vehicleSeatRepository.findAll();
+    public Collection<VehicleSeatEntity> findAll(SqlType sqlType){
+        Collection<VehicleSeatEntity> all;
+        switch (sqlType){
+            case HQL:{
+                all =vehicleSeatRepository.findAll();
+                break;
+            }
+            case SQL: {
+                all = vehicleSeatRepository.findAllAsNative();
+                break;
+            }
+            case NAMED_QUERY:{
+                all = vehicleSeatRepository.findAllAsNamed();
+                break;
+            }
+            case STORE_PROCEDURE:{
+                all = vehicleSeatRepository.findAllAsStoredProcedure();
+                break;
+            }
+            case CRITERIA:{
+                all = vehicleSeatRepository.findAllAsCriteria();
+                break;
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
+        return all;
     }
-
     /*HomeWork 6*/
     @Transactional(readOnly = true)
     public Collection<VehicleSeatEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){
         return vehicleSeatRepository.findAll(sql,startPage,sizePage,field,orderType);
     }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsNative(){
-        return vehicleSeatRepository.findAllAsNative();
-    }
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsNamed(){
-        return vehicleSeatRepository.findAllAsNamed();
-    }
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsCriteria(){
-        return vehicleSeatRepository.findAllAsCriteria();
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsStoredProcedure(){
-        return vehicleSeatRepository.findAllAsStoredProcedure();
-    }
-
-
-
-
-
 
     @Transactional
     public void remove(VehicleSeatEntity vehicleSeatEntity) {

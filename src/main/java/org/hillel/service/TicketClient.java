@@ -67,35 +67,21 @@ public class TicketClient<E> {
         return id == null ? Optional.empty() : transactionalJourneyService.findById(id,withDependencies);
     }
 
-    public Collection<JourneyEntity> findAllJourney(){
-        return transactionalJourneyService.findAll();
+    public Collection<JourneyEntity> findAllJourney(SqlType sqlType){
+        return transactionalJourneyService.findAll(sqlType);
     }
 
     public Collection<JourneyEntity> findAllJourney(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
         return transactionalJourneyService.findAll(sql,startPage,sizePage,field,orderType);
     }
 
-    public Collection<JourneyEntity> findAllJourneyAsNative(){
-        return transactionalJourneyService.findAllAsNative();
+    public void remove(JourneyEntity journey1) {
+        transactionalJourneyService.remove(journey1);
     }
 
-
-    public Collection<JourneyEntity> findAllJourneyAsNamed(){
-        return transactionalJourneyService.findAllJourneyAsNamed();
+    public void removeById(Long id) {
+        transactionalJourneyService.removeById(id);
     }
-    public Collection<JourneyEntity>findAllJourneyAsCriteria(){
-        return transactionalJourneyService.findAllAsCriteria();
-    }
-    public Collection<JourneyEntity> findAllJourneyAsStoredProcedure(){
-        return transactionalJourneyService.findAllAsStoredProcedure();
-    }
-//    public void remove(JourneyEntity journey1) {
-//        transactionalJourneyService.remove(journey1);
-//    }
-//
-//    public void removeById(Long id) {
-//        transactionalJourneyService.removeById(id);
-//    }
 
 
     //VehicleEntity manipulation
@@ -121,12 +107,8 @@ public class TicketClient<E> {
         return byIds;
     }
 
-    public Collection<VehicleEntity> findAllVehicles(){
-        return transactionalVehicleService.findAll();
-    }
-
-    public Collection<VehicleEntity> findAllVehicles(String sort, boolean typeSort){
-        return transactionalVehicleService.findAll();
+    public Collection<VehicleEntity> findAllVehicles(SqlType sqlType){
+        return transactionalVehicleService.findAll(sqlType);
     }
 
     public Collection<VehicleEntity> findAllVehicles(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
@@ -138,21 +120,6 @@ public class TicketClient<E> {
     }
     public Collection<VehicleEntity> findVehicleByMaxSeats(){
         return transactionalVehicleService.findVehicleByMaxSeats();
-    }
-
-    public Collection<VehicleEntity> findAllVehiclesAsNative(){
-        return transactionalVehicleService.findAllAsNative();
-    }
-
-    public Collection<VehicleEntity> findAllVehiclesAsNamed(){
-        return transactionalVehicleService.findAllAsNamed();
-    }
-
-    public Collection<VehicleEntity>findAllVehiclesAsCriteria(){
-        return transactionalVehicleService.findAllAsCriteria();
-    }
-    public Collection<VehicleEntity> findAllVehiclesAsStoredProcedure(){
-        return transactionalVehicleService.findAllAsStoredProcedure();
     }
 
     public Collection<VehicleEntity> findAllVehiclesByName(String name){
@@ -175,26 +142,14 @@ public class TicketClient<E> {
         transactionalStopService.removeById(id);
     }
 
-    public Collection<StopEntity>findAllStops(){
-        return transactionalStopService.findAll();
+    public Collection<StopEntity>findAllStops(SqlType sqlType){
+        return transactionalStopService.findAll(sqlType);
     }
 
     public Collection<StopEntity> findAllStops(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
         return transactionalStopService.findAll(sql,startPage,sizePage,field,orderType);
     }
 
-    public Collection<StopEntity>findAllStopsAsNative(){
-        return transactionalStopService.findAllAsNative();
-    }
-    public Collection<StopEntity> findAllStopsAsNamed(){
-        return transactionalStopService.findAllAsNamed();
-    }
-    public Collection<StopEntity>findAllStopsAsCriteria(){
-        return transactionalStopService.findAllAsCriteria();
-    }
-    public Collection<StopEntity> findAllStopsAsStoredProcedure(){
-        return transactionalStopService.findAllAsStoredProcedure();
-    }
 
     //Vehicle seats manipulation
 
@@ -206,26 +161,12 @@ public class TicketClient<E> {
         return transactionalVehicleSeatService.findById(id,withDependencies);
     }
 
-    public Collection<VehicleSeatEntity> findAllVehicleSeats(){
-        return transactionalVehicleSeatService.findAll();
+    public Collection<VehicleSeatEntity> findAllVehicleSeats(SqlType sqlType){
+        return transactionalVehicleSeatService.findAll(sqlType);
     }
 
     public Collection<VehicleSeatEntity> findAllVehicleSeats(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
         return transactionalVehicleSeatService.findAll(sql,startPage,sizePage,field,orderType);
-    }
-
-    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsNative(){
-        return transactionalVehicleSeatService.findAllAsNative();
-    }
-
-    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsNamed(){
-        return transactionalVehicleSeatService.findAllAsNamed();
-    }
-    public Collection<VehicleSeatEntity> findAllVehicleSeatsAsCriteria(){
-        return transactionalVehicleSeatService.findAllAsCriteria();
-    }
-    public Collection<VehicleSeatEntity>  findAllVehicleSeatsAsStoredProcedure(){
-        return transactionalVehicleSeatService.findAllAsStoredProcedure();
     }
 
     public void removeVehicleSeat(VehicleSeatEntity vehicleSeatEntity){
