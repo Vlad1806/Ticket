@@ -139,35 +139,6 @@ public class TransactionalVehicleService{
         return all;
     }
 
-//    @Transactional(readOnly = true)
-//    public Collection<VehicleEntity> findAllAsNative(){
-//        final Collection<VehicleEntity> allAsNative = vehicleRepository.findAllAsNative();
-//        vehicleDependencies(allAsNative);
-//        return allAsNative;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Collection<VehicleEntity> findAllAsNamed(){
-//        final Collection<VehicleEntity> allVehicleAsNamed = vehicleRepository.findAllAsNamed();
-//        vehicleDependencies(allVehicleAsNamed);
-//        return allVehicleAsNamed;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Collection<VehicleEntity> findAllAsCriteria(){
-//        final Collection<VehicleEntity> allAsCriteria = vehicleRepository.findAllAsCriteria();
-//        vehicleDependencies(allAsCriteria);
-//        return allAsCriteria;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Collection<VehicleEntity> findAllAsStoredProcedure(){
-//        final Collection<VehicleEntity> allAsStoredProcedure = vehicleRepository.findAllAsStoredProcedure();
-//        vehicleDependencies(allAsStoredProcedure);
-//        return allAsStoredProcedure;
-//    }
-
-//
 //    @Autowired
 //    private NewTransactionalVehicleService newTransactionalVehicleService;
 

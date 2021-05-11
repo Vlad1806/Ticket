@@ -150,32 +150,6 @@ public class TransactionalJourneyService{
         }
     }
 
-
-
-
-
-//    @Transactional(readOnly = true)
-//    public Collection<JourneyEntity> findAllJourneyAsNamed(){
-//        final Collection<JourneyEntity> allJourneyAsNamed = journeyRepository.findAllAsNamed();
-//        journeyDependencies(allJourneyAsNamed);
-//        return allJourneyAsNamed;
-//    }
-//
-//
-//    @Transactional(readOnly = true)
-//    public Collection<JourneyEntity> findAllAsCriteria(){
-//        final Collection<JourneyEntity> allAsCriteria = journeyRepository.findAllAsCriteria();
-//        journeyDependencies(allAsCriteria);
-//        return allAsCriteria;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Collection<JourneyEntity> findAllAsStoredProcedure(){
-//        final Collection<JourneyEntity> allAsStoredProcedure = journeyRepository.findAllAsStoredProcedure();
-//        journeyDependencies(allAsStoredProcedure);
-//        return allAsStoredProcedure;
-//    }
-
 }
 
 

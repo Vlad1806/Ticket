@@ -1,5 +1,6 @@
 package org.hillel;
 import org.hillel.config.RootConfig;
+
 import org.hillel.persistence.entity.*;
 import org.hillel.persistence.entity.enums.DirectionType;
 import org.hillel.persistence.entity.enums.SqlType;

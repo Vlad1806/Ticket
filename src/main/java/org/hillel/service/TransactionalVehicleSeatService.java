@@ -69,29 +69,6 @@ public class TransactionalVehicleSeatService {
         return vehicleSeatRepository.findAll(sql,startPage,sizePage,field,orderType);
     }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsNative(){
-        return vehicleSeatRepository.findAllAsNative();
-    }
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsNamed(){
-        return vehicleSeatRepository.findAllAsNamed();
-    }
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsCriteria(){
-        return vehicleSeatRepository.findAllAsCriteria();
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleSeatEntity> findAllAsStoredProcedure(){
-        return vehicleSeatRepository.findAllAsStoredProcedure();
-    }
-
-
-
-
-
-
     @Transactional
     public void remove(VehicleSeatEntity vehicleSeatEntity) {
          vehicleSeatRepository.remove(vehicleSeatEntity);

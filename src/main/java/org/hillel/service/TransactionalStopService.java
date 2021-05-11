@@ -79,26 +79,6 @@ public class TransactionalStopService {
         return all;
     }
 
-
-
-    @Transactional(readOnly = true)
-    public Collection<StopEntity> findAllAsNative(){
-        return stopRepository.findAllAsNative();
-    }
-    @Transactional(readOnly = true)
-    public Collection<StopEntity> findAllAsNamed(){
-        return stopRepository.findAllAsNamed();
-
-    }
-    @Transactional(readOnly = true)
-    public Collection<StopEntity> findAllAsCriteria(){
-        return stopRepository.findAllAsCriteria();
-    }
-    @Transactional(readOnly = true)
-    public Collection<StopEntity> findAllAsStoredProcedure(){
-        return stopRepository.findAllAsStoredProcedure();
-    }
-
 //    @Transactional
 //    public Long createStop(final StopEntity stopEntity) {
 //        if (Objects.isNull(stopEntity))
