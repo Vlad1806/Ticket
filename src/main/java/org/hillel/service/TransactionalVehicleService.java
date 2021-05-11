@@ -1,26 +1,16 @@
 package org.hillel.service;
 
-import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.VehicleEntity;
 import org.hillel.persistence.entity.enums.SqlType;
-import org.hillel.persistence.repository.CommonRepository;
 import org.hillel.persistence.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
+import org.springframework.transaction.annotation.Transactional;
+
+
 import java.util.Collection;
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -94,13 +84,6 @@ public class TransactionalVehicleService{
         vehicleRepository.removeById(id);
     }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAll(){
-        final Collection<VehicleEntity> all = vehicleRepository.findAll();
-        if (all.isEmpty()) return all;
-        vehicleDependencies(all);
-        return all;
-    }
 
     /*HomeWork 6*/
     @Transactional(readOnly = true)
@@ -124,33 +107,65 @@ public class TransactionalVehicleService{
         return all;
     }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsNative(){
-        final Collection<VehicleEntity> allAsNative = vehicleRepository.findAllAsNative();
-        vehicleDependencies(allAsNative);
-        return allAsNative;
-    }
 
     @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsNamed(){
-        final Collection<VehicleEntity> allVehicleAsNamed = vehicleRepository.findAllAsNamed();
-        vehicleDependencies(allVehicleAsNamed);
-        return allVehicleAsNamed;
+    public Collection<VehicleEntity> findAll(SqlType sqlType){
+        Collection<VehicleEntity> all;
+        switch (sqlType){
+            case HQL:{
+                all = vehicleRepository.findAll();
+                break;
+            }
+            case SQL: {
+                all = vehicleRepository.findAllAsNative();
+                break;
+            }
+            case NAMED_QUERY:{
+                all = vehicleRepository.findAllAsNamed();
+                break;
+            }
+            case STORE_PROCEDURE:{
+                all = vehicleRepository.findAllAsStoredProcedure();
+                break;
+            }
+            case CRITERIA:{
+                all = vehicleRepository.findAllAsCriteria();
+                break;
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
+        if (all.isEmpty()) return all;
+        vehicleDependencies(all);
+        return all;
     }
 
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsCriteria(){
-        final Collection<VehicleEntity> allAsCriteria = vehicleRepository.findAllAsCriteria();
-        vehicleDependencies(allAsCriteria);
-        return allAsCriteria;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAllAsStoredProcedure(){
-        final Collection<VehicleEntity> allAsStoredProcedure = vehicleRepository.findAllAsStoredProcedure();
-        vehicleDependencies(allAsStoredProcedure);
-        return allAsStoredProcedure;
-    }
+//    @Transactional(readOnly = true)
+//    public Collection<VehicleEntity> findAllAsNative(){
+//        final Collection<VehicleEntity> allAsNative = vehicleRepository.findAllAsNative();
+//        vehicleDependencies(allAsNative);
+//        return allAsNative;
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public Collection<VehicleEntity> findAllAsNamed(){
+//        final Collection<VehicleEntity> allVehicleAsNamed = vehicleRepository.findAllAsNamed();
+//        vehicleDependencies(allVehicleAsNamed);
+//        return allVehicleAsNamed;
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public Collection<VehicleEntity> findAllAsCriteria(){
+//        final Collection<VehicleEntity> allAsCriteria = vehicleRepository.findAllAsCriteria();
+//        vehicleDependencies(allAsCriteria);
+//        return allAsCriteria;
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public Collection<VehicleEntity> findAllAsStoredProcedure(){
+//        final Collection<VehicleEntity> allAsStoredProcedure = vehicleRepository.findAllAsStoredProcedure();
+//        vehicleDependencies(allAsStoredProcedure);
+//        return allAsStoredProcedure;
+//    }
 
 //
 //    @Autowired

@@ -3,7 +3,6 @@ package org.hillel.persistence.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hillel.persistence.entity.util.YesNoConvector;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ public abstract class AbstractModifyEntity<ID extends Serializable> extends Abst
     private Instant createDate;
 
     @Column(name = "active")
-//    @Type(type = "numeric_boolean")
+//  @Type(type = "numeric_boolean")
     @Convert(converter = YesNoConvector.class)
     private boolean active = true;
 
