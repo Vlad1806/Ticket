@@ -125,6 +125,35 @@ public class Starter {
 
 
         /*HomeWork 5*/
+//        //Journey
+//        System.out.println(ticketClient.findAllJourney(SqlType.HQL));
+//        System.out.println(ticketClient.findAllJourney(SqlType.SQL));
+//        System.out.println(ticketClient.findAllJourney(SqlType.NAMED_QUERY));
+//        System.out.println(ticketClient.findAllJourney(SqlType.STORE_PROCEDURE));
+//        System.out.println(ticketClient.findAllJourney(SqlType.CRITERIA));
+//
+//        //Stop
+//        System.out.println(ticketClient.findAllStops(SqlType.HQL));
+//        System.out.println(ticketClient.findAllStops(SqlType.SQL));
+//        System.out.println(ticketClient.findAllStops(SqlType.NAMED_QUERY));
+//        System.out.println(ticketClient.findAllStops(SqlType.STORE_PROCEDURE));
+//        System.out.println(ticketClient.findAllStops(SqlType.CRITERIA));
+//
+//        //VehicleSeat
+//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.HQL));
+//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.SQL));
+//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.NAMED_QUERY));
+//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.STORE_PROCEDURE));
+//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.CRITERIA));
+//
+//        //Vehicle
+//        System.out.println(ticketClient.findAllVehicles(SqlType.HQL));
+//        System.out.println(ticketClient.findAllVehicles(SqlType.SQL));
+//        System.out.println(ticketClient.findAllVehicles(SqlType.NAMED_QUERY));
+//        System.out.println(ticketClient.findAllVehicles(SqlType.STORE_PROCEDURE));
+//        System.out.println(ticketClient.findAllVehicles(SqlType.CRITERIA));
+
+        /*HomeWork 6*/
 //        JourneyEntity
         System.out.println(ticketClient.findAllJourney(SqlType.HQL,0,5,JourneyEntity_.ID,true));
         System.out.println("\n");
@@ -153,40 +182,6 @@ public class Starter {
         System.out.println("\n");
         System.out.println("Id max vehicle procedure: " + ticketClient.findVehicleByMaxSeats());
 
-
-
-
-
-
-
-
-//        //Journey
-//        System.out.println(ticketClient.findAllJourney(SqlType.HQL));
-//        System.out.println(ticketClient.findAllJourney(SqlType.SQL));
-//        System.out.println(ticketClient.findAllJourney(SqlType.NAMED_QUERY));
-//        System.out.println(ticketClient.findAllJourney(SqlType.STORE_PROCEDURE));
-//        System.out.println(ticketClient.findAllJourney(SqlType.CRITERIA));
-//
-//        //Stop
-//        System.out.println(ticketClient.findAllStops(SqlType.HQL));
-//        System.out.println(ticketClient.findAllStops(SqlType.SQL));
-//        System.out.println(ticketClient.findAllStops(SqlType.NAMED_QUERY));
-//        System.out.println(ticketClient.findAllStops(SqlType.STORE_PROCEDURE));
-//        System.out.println(ticketClient.findAllStops(SqlType.CRITERIA));
-//
-//        //VehicleSeat
-//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.HQL));
-//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.SQL));
-//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.NAMED_QUERY));
-//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.STORE_PROCEDURE));
-//        System.out.println(ticketClient.findAllVehicleSeats(SqlType.CRITERIA));
-//
-//        //Vehicle
-//        System.out.println(ticketClient.findAllVehicles(SqlType.HQL));
-//        System.out.println(ticketClient.findAllVehicles(SqlType.SQL));
-//        System.out.println(ticketClient.findAllVehicles(SqlType.NAMED_QUERY));
-//        System.out.println(ticketClient.findAllVehicles(SqlType.STORE_PROCEDURE));
-//        System.out.println(ticketClient.findAllVehicles(SqlType.CRITERIA));
     }
 
     private static JourneyEntity buildJourney(final String stationFrom, final String stationTo, final Instant departure, final Instant arrival,DirectionType direction,boolean active) {
