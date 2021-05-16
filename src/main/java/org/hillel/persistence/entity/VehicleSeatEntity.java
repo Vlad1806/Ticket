@@ -32,7 +32,7 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
     private JourneyEntity journey;
 
     @Column(name = "seat_number")
-    private int seatNumber;
+    private Integer seatNumber;
 
     @Column(name = "booked", nullable = false)
     @Convert(converter = YesNoConvector.class)

@@ -22,6 +22,4 @@ public abstract class AbstractModifyEntity<ID extends Serializable> extends Abst
 //  @Type(type = "numeric_boolean")
     @Convert(converter = YesNoConvector.class)
     private boolean active = true;
-
-
 }
