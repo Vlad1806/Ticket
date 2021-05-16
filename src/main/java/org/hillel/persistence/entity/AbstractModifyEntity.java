@@ -15,7 +15,6 @@ import java.time.Instant;
 @MappedSuperclass
 public abstract class AbstractModifyEntity<ID extends Serializable> extends AbstractEntity<ID>{
 
-
     @Column(name = "create_date")
     @CreationTimestamp
     private Instant createDate;
