@@ -27,7 +27,7 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
     private JourneyEntity journey;
 
     @Column(name = "free_seats",nullable = false)
-    private int freeSeats;
+    private Integer freeSeats;
     @Id
     private Long id;
 
