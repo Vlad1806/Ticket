@@ -19,22 +19,16 @@ public class VehicleSeatRepository extends CommonRepository<VehicleSeatEntity,Lo
     public VehicleSeatEntity createOrUpdate(VehicleSeatEntity entity) {
         VehicleEntity vehicleEntity = entity.getVehicle();
         JourneyEntity journeyEntity = entity.getJourney();
-        if (Objects.nonNull(vehicleEntity) && Objects.nonNull(journeyEntity)){
-            if (!entityManager.contains(vehicleEntity) && !entityManager.contains(journeyEntity)){
-                entity.setVehicle(vehicleEntity);
-                entity.setJourney(journeyEntity);
+        if (Objects.nonNull(vehicleEntity)){
+            if (!entityManager.contains(vehicleEntity)){
+                entity.setVehicle(entityManager.merge(vehicleEntity));
+            }
+        }
+        if (Objects.nonNull(journeyEntity)){
+            if (!entityManager.contains(journeyEntity)){
+                entity.setJourney(entityManager.merge(journeyEntity));
             }
         }
         return super.createOrUpdate(entity);
-    }
-
-    @Override
-    public void removeById(Long aLong) {
-        super.removeById(aLong);
-    }
-
-
-    public void remove(VehicleSeatEntity entity) {
-        super.remove(entity);
     }
 }

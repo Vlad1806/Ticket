@@ -51,6 +51,11 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
     )
     private List<StopEntity> stops = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST})
+    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
+
+
     public void addStop(final StopEntity stop){
         if (stop == null) throw new ArithmeticException("Stop must be set");
         if (stops == null) stops = new ArrayList<>();
@@ -63,8 +68,6 @@ public class JourneyEntity extends AbstractModifyEntity<Long>{
         vehicle.addJourney(this);
     }
 
-    @OneToMany(mappedBy = "journey",cascade = {CascadeType.PERSIST})
-    private List<VehicleSeatEntity> vehicleSeats = new ArrayList<>();
 
 
     public void addVehicleSeat(final VehicleSeatEntity vehicleSeat){

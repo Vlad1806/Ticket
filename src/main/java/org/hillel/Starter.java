@@ -10,6 +10,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Starter {
@@ -20,14 +21,15 @@ public class Starter {
         TicketClient ticketClient =  applicationContext.getBean(TicketClient.class);
 
         //Create Vehicle
-        VehicleEntity vehicle1 = buildVehicle("Bus_1");
+        VehicleEntity vehicle1 = buildVehicle("Bus_1",12);
         vehicle1 = ticketClient.createOrUpdateVehicle(vehicle1);
 
-        VehicleEntity vehicle2 = buildVehicle("Train_2");
+        VehicleEntity vehicle2 = buildVehicle("Train_2",10);
         vehicle2 = ticketClient.createOrUpdateVehicle(vehicle2);
 
-        VehicleEntity vehicle3 = buildVehicle("Train_3");
+        VehicleEntity vehicle3 = buildVehicle("Train_3",5);
         vehicle3 = ticketClient.createOrUpdateVehicle(vehicle3);
+
 
         //Create Journey
         JourneyEntity journey1 = buildJourney("Одесса","Киев",
@@ -35,6 +37,10 @@ public class Starter {
         //Create Journey
         JourneyEntity journey2 = buildJourney("Одесса","Львов",
                 Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
+
+        JourneyEntity journey3 = buildJourney("Одесса","Харьков",
+                Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
+
         // Add stops
         journey1.addStop(buildStop(buildStopAdditionalInfo(12D,12D,LocalDate.now(),"Одесса"),
                 buildCommonInfo("Котовский_1","Котовский описание")));
@@ -50,55 +56,90 @@ public class Starter {
         journey2.addStop(buildStop(buildStopAdditionalInfo(130D,130D,LocalDate.now(),"Белая церковь2"),
                 buildCommonInfo("Белая церковь_2","Белая церковь2 описание")));
 
-
         journey2.addStop(buildStop(buildStopAdditionalInfo(99D,99D,LocalDate.now(),"99"),
                 buildCommonInfo("99","99")));
+
+        journey3.addStop(buildStop(buildStopAdditionalInfo(929D,929D,LocalDate.now(),"929"),
+                buildCommonInfo("929","929")));
 
 
         ticketClient.createOrUpdateJourney(journey1);
         ticketClient.createOrUpdateJourney(journey2);
-        //Create Vehicle seats
-        VehicleSeatEntity vehicleSeatEntity = buildVehicleSeatEntity(journey1,vehicle1,20);
-        VehicleSeatEntity vehicleSeatEntity1 = buildVehicleSeatEntity(journey2,vehicle2,150);
-        VehicleSeatEntity vehicleSeatEntity2 = buildVehicleSeatEntity(journey2,vehicle3,15);
+        ticketClient.createOrUpdateJourney(journey3);
 
-        ticketClient.createOrUpdateVehicleSeat(vehicleSeatEntity);
-        ticketClient.createOrUpdateVehicleSeat(vehicleSeatEntity1);
-        ticketClient.createOrUpdateVehicleSeat(vehicleSeatEntity2);
+        //Create Vehicle seats
+        List<VehicleSeatEntity> vehicle1seats = buildVehicleSeatEntity(journey1,vehicle1);
+
+        for (int i = 0; i < vehicle1seats.size(); i++) {
+            vehicle1seats.get(i).setBooked(true);
+            ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(i));
+        }
+        vehicle1.setVehicleSeats(vehicle1seats);
+        journey1.setVehicleSeats(vehicle1seats);
+        journey1.setVehicle(vehicle1);
+
+        List<VehicleSeatEntity> vehicle2seats = buildVehicleSeatEntity(journey2,vehicle2);
+
+         for (int i = 0; i < vehicle2seats.size(); i++) {
+            vehicle2seats.get(i).setBooked(true);
+            ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(i));
+        }
+        vehicle2.setVehicleSeats(vehicle2seats);
+        journey2.setVehicleSeats(vehicle2seats);
+        journey2.setVehicle(vehicle2);
+
+        List<VehicleSeatEntity> vehicle3seats = buildVehicleSeatEntity(journey3,vehicle3);
+
+        for (int i = 0; i < vehicle3seats.size(); i++) {
+            ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(i));
+        }
+        vehicle3.setVehicleSeats(vehicle3seats);
+        journey3.setVehicleSeats(vehicle3seats);
+        journey3.setVehicle(vehicle3);
+
+        journey1.setActive(false);
 
         vehicle1.setName("bus_3");
         vehicle2.setActive(false);
 
-        vehicleSeatEntity.setFreeSeats(1);
-        vehicleSeatEntity1.setFreeSeats(2);
+        vehicle1seats.get(5).setBooked(false);
+        vehicle1seats.get(6).setBooked(false);
 
-        vehicle1.addVehicleSeat(vehicleSeatEntity);
-        vehicle2.addVehicleSeat(vehicleSeatEntity1);
-        vehicle3.addVehicleSeat(vehicleSeatEntity2);
-        journey1.addVehicle(vehicle1);
-        journey2.addVehicle(vehicle2);
+        vehicle2seats.get(7).setBooked(false);
+        vehicle2seats.get(9).setBooked(false);
 
+//        vehicle3seats.get(1).setBooked(false);
+        vehicle3seats.get(2).setBooked(false);
 
-        ticketClient.createOrUpdateJourney(journey1);
-        ticketClient.createOrUpdateJourney(journey2);
+        ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(5));
+        ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(6));
 
-        /*  Удаление  Vehicle */
-        ticketClient.removeVehicle(vehicle2);
-        ticketClient.removeVehicleById(vehicle1.getId());
-
-        /* Удаление  информацию по Vehicle */
-        System.out.println("vehicle3"+ vehicle3.getVehicleSeats());
-       List<VehicleSeatEntity> vehicleSeat =  vehicle3.getVehicleSeats();
-        vehicleSeat.stream().forEach(item->ticketClient.removeVehicleSeat(item));
+        ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(7));
+        ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(9));
 
 
-        StopEntity stopEntity = journey2.getStops().get(3);
+        ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(2));
+//        ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(1));
 
+
+//        /*  Удаление  Vehicle */
+//        ticketClient.removeVehicle(vehicle2);
+//        ticketClient.removeVehicleById(vehicle1.getId());
+//
+//        /* Удаление  информацию по Vehicle */
+//        System.out.println("vehicle3"+ vehicle3.getVehicleSeats());
+//       List<VehicleSeatEntity> vehicleSeat =  vehicle3.getVehicleSeats();
+//        vehicleSeat.stream().forEach(item->ticketClient.removeVehicleSeat(item));
+//
+
+        StopEntity stopEntity = journey1.getStops().get(2);
+        System.out.println(stopEntity);
         ticketClient.createOrUpdateStop(stopEntity);
 
         /*  Удаление  stop*/
         ticketClient.removeStop(stopEntity);
-        ticketClient.removeStopById(3L);
+
+//        ticketClient.removeStopById(3L);
 
     }
 
@@ -130,18 +171,24 @@ public class Starter {
         return stopAdditionalInfoEntity;
     }
 
-    private static VehicleSeatEntity buildVehicleSeatEntity(final JourneyEntity journey,
-                                                            final VehicleEntity vehicle, final Integer freeSeats){
-        final VehicleSeatEntity seatEntity = new VehicleSeatEntity();
-        seatEntity.setJourney(journey);
-        seatEntity.setVehicle(vehicle);
-        seatEntity.setFreeSeats(freeSeats);
-        return seatEntity;
+    private static List<VehicleSeatEntity> buildVehicleSeatEntity(final JourneyEntity journey,
+                                                                  final VehicleEntity vehicle){
+        List<VehicleSeatEntity> list = new ArrayList<>();
+        for (int i = 0; i <= vehicle.getMaxSeats() - 1; i++) {
+            VehicleSeatEntity seatEntity = new VehicleSeatEntity();
+            seatEntity.setBooked(true);
+            seatEntity.setJourney(journey);
+            seatEntity.setVehicle(vehicle);
+            seatEntity.setSeatNumber(i + 1);
+            list.add(seatEntity);
+        }
+        return list;
     }
 
-    private static VehicleEntity buildVehicle(final String name) {
+    private static VehicleEntity buildVehicle(final String name,int maxSeats) {
         final VehicleEntity vehicleEntity = new VehicleEntity();
         vehicleEntity.setName(name);
+        vehicleEntity.setMaxSeats(maxSeats);
         return vehicleEntity;
     }
 

@@ -22,8 +22,12 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "max_seats")
+    private int maxSeats;
+
     @OneToMany(mappedBy = "vehicle",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     List<JourneyEntity> journeys = new ArrayList<>();
+
 //    Set<JourneyEntity> journeys = new HashSet<>();
     public void addJourney(final JourneyEntity journeyEntity){
         if (journeyEntity == null) {
@@ -52,7 +56,7 @@ public class VehicleEntity extends AbstractModifyEntity<Long> {
 
 //    public void removeAllJVehicleSeat(){
 //        if (CollectionUtils.isEmpty(vehicleSeats))return;
-//        vehicleSeats.forEach(item -> item.se(null));
+//        vehicleSeats.forEach(item -> item.set(null));
 //    }
     public void removeAllJourneys(){
         if (CollectionUtils.isEmpty(journeys))return;

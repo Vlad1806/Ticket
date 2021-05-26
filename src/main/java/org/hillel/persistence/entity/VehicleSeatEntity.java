@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hillel.persistence.entity.util.YesNoConvector;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -19,16 +20,20 @@ import java.util.Objects;
 @DynamicInsert
 public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id", nullable = false)
     private VehicleEntity vehicle;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "journey_id", nullable = false)
     private JourneyEntity journey;
 
-    @Column(name = "free_seats")
-    private int freeSeats;
+    @Column(name = "seat_number",nullable = false)
+    private int seatNumber;
+
+    @Column(name = "booked", nullable = false)
+    @Convert(converter = YesNoConvector.class)
+    private boolean booked;
 
     public void addVehicle(final VehicleEntity vehicle){
         if (Objects.isNull(vehicle)) throw new IllegalArgumentException("Vehicle must be set!");
@@ -47,9 +52,11 @@ public class VehicleSeatEntity extends AbstractModifyEntity<Long>{
 
     @Override
     public String toString() {
-        return "VehicleSeat{" +
-                "vehicle=" + vehicle +
-                ", freeSeats=" + freeSeats +
+        return "VehicleSeatEntity{" +
+                ", id=" + getId() +
+                ", active=" + isActive() +
+                ", seatNumber=" + seatNumber +
+                ", booked=" + booked +
                 '}';
     }
 }

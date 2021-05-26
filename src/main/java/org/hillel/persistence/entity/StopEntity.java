@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "stop")
@@ -29,11 +30,9 @@ public class StopEntity extends AbstractModifyEntity<Long>{
     @ManyToMany(mappedBy = "stops",fetch = FetchType.LAZY)
     private List<JourneyEntity> journeys = new ArrayList<>();
 
-
     @Transient
     private boolean applyToJourneyBuild;
-    @Id
-    private Long id;
+
 
     public void addStopAdditionalInfo(StopAdditionalInfoEntity stopAdditionalInfo){
         if (stopAdditionalInfo == null) {
@@ -54,6 +53,20 @@ public class StopEntity extends AbstractModifyEntity<Long>{
         if (CollectionUtils.isEmpty(journeys))return;
         journeys.forEach(item -> item.getStops().remove(this));
         this.journeys.clear();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StopEntity)) return false;
+        StopEntity stopEntity = (StopEntity) o;
+        return getId() != null && Objects.equals(getId(),stopEntity.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override
