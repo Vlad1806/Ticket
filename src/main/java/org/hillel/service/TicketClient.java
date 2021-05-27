@@ -71,9 +71,9 @@ public class TicketClient<E> {
         return transactionalJourneyService.findAll(sqlType);
     }
 
-    public Collection<JourneyEntity> findAllJourney(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
-        return transactionalJourneyService.findAll(sql,startPage,sizePage,field,orderType);
-    }
+//    public Collection<JourneyEntity> findAllJourney(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
+//        return transactionalJourneyService.findAll(sql,startPage,sizePage,field,orderType);
+//    }
 
     public void remove(JourneyEntity journey1) {
         transactionalJourneyService.remove(journey1);
@@ -111,17 +111,6 @@ public class TicketClient<E> {
         return transactionalVehicleService.findAll(sqlType);
     }
 
-    public Collection<VehicleEntity> findAllVehicles(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
-        return transactionalVehicleService.findAll(sql,startPage,sizePage,field,orderType);
-    }
-
-    public Collection<VehicleEntity> findVehicleByMinSeats(){
-        return transactionalVehicleService.findVehicleByMinSeats();
-    }
-    public Collection<VehicleEntity> findVehicleByMaxSeats(){
-        return transactionalVehicleService.findVehicleByMaxSeats();
-    }
-
     public Collection<VehicleEntity> findAllVehiclesByName(String name){
         return transactionalVehicleService.findByName(name);
     }
@@ -146,13 +135,7 @@ public class TicketClient<E> {
         return transactionalStopService.findAll(sqlType);
     }
 
-    public Collection<StopEntity> findAllStops(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
-        return transactionalStopService.findAll(sql,startPage,sizePage,field,orderType);
-    }
-
-
     //Vehicle seats manipulation
-
     public VehicleSeatEntity createOrUpdateVehicleSeat(VehicleSeatEntity vehicleSeatEntity){
        return transactionalVehicleSeatService.createOrUpdateVehicleSeat(vehicleSeatEntity);
     }
@@ -163,10 +146,6 @@ public class TicketClient<E> {
 
     public Collection<VehicleSeatEntity> findAllVehicleSeats(SqlType sqlType){
         return transactionalVehicleSeatService.findAll(sqlType);
-    }
-
-    public Collection<VehicleSeatEntity> findAllVehicleSeats(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
-        return transactionalVehicleSeatService.findAll(sql,startPage,sizePage,field,orderType);
     }
 
     public void removeVehicleSeat(VehicleSeatEntity vehicleSeatEntity){

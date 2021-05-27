@@ -1,5 +1,7 @@
 package org.hillel.persistence.repository;
 
+import org.hillel.persistence.entity.enums.SqlType;
+
 import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 import java.util.Optional;
@@ -20,11 +22,13 @@ public interface GenericRepository<E, ID> {
 
     Collection<E> findAll();
 
-    Collection<E> findAllAsNative();
+    Collection<E> findAll(SqlType sql);
 
-    Collection<E> findAllAsNamed();
-
-    Collection<E> findAllAsCriteria();
-
-    Collection<E> findAllAsStoredProcedure();
+//    Collection<E> findAllAsNative();
+//
+//    Collection<E> findAllAsNamed();
+//
+//    Collection<E> findAllAsCriteria();
+//
+//    Collection<E> findAllAsStoredProcedure();
 }

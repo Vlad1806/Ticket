@@ -61,29 +61,4 @@ public class VehicleRepository extends CommonRepository<VehicleEntity,Long> {
                 .getResultList();
     }
 
-
-    public Collection<VehicleEntity> findVehicleByMinSeats(){
-        return  entityManager.createNativeQuery(
-                "select * from vehicle where id = " +
-                       "(select vehicle_id from ( " +
-                "SELECT vehicle_id, MIN(COUNT(*)) OVER (partition by vehicle_id) FROM vehicle_seat " +
-                "where booked = 'no' " +
-                "GROUP BY vehicle_id " +
-                "order by min asc " +
-                "limit 1) k)"
-        ,VehicleEntity.class).getResultList();
-    }
-
-    public Collection<VehicleEntity> findVehicleByMaxSeats(){
-        return  entityManager.createNativeQuery(
-                "select * from vehicle where id = " +
-                        "(select vehicle_id from ( " +
-                        "SELECT vehicle_id, Max(COUNT(*)) OVER (partition by vehicle_id) FROM vehicle_seat " +
-                        "where booked = 'no' " +
-                        "GROUP BY vehicle_id " +
-                        "order by max desc " +
-                        "limit 1) k)"
-                ,VehicleEntity.class).getResultList();
-    }
-
 }

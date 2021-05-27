@@ -96,58 +96,11 @@ public class TransactionalVehicleService{
 
     @Transactional(readOnly = true)
     public Collection<VehicleEntity> findAll(SqlType sqlType){
-        Collection<VehicleEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all = vehicleRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = vehicleRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = vehicleRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = vehicleRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = vehicleRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
+        Collection<VehicleEntity> all = vehicleRepository.findAll(sqlType);
         if (all.isEmpty()) return all;
         vehicleDependencies(all);
         return all;
     }
-
-    /*HomeWork 6*/
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){
-        final Collection<VehicleEntity> all = vehicleRepository.findAll(sql,startPage,sizePage,field,orderType);
-        vehicleDependencies(all);
-        return all;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findVehicleByMinSeats(){
-        final Collection<VehicleEntity> all = vehicleRepository.findVehicleByMinSeats();
-        vehicleDependencies(all);
-        return all;
-    }
-
-    @Transactional(readOnly = true)
-    public Collection<VehicleEntity> findVehicleByMaxSeats(){
-        final Collection<VehicleEntity> all = vehicleRepository.findVehicleByMaxSeats();
-        vehicleDependencies(all);
-        return all;
-    }
-
-
 
 //
 //    @Autowired

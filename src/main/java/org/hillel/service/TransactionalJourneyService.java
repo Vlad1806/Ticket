@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -80,48 +81,14 @@ public class TransactionalJourneyService{
 //        save.setStationFrom("test station from");
 //    }
 
-
-
-
     /*HomeWork 5*/
     @Transactional(readOnly = true)
     public Collection<JourneyEntity> findAll(SqlType sqlType){
-        Collection<JourneyEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all = journeyRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = journeyRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = journeyRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = journeyRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = journeyRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
+       Collection<JourneyEntity> all = journeyRepository.findAll(sqlType);
         if (all.isEmpty()) return all;
         journeyDependencies(all);
         return all;
     }
-    /*HomeWork 6*/
-    @Transactional(readOnly = true)
-    public Collection<JourneyEntity> findAll(SqlType sql,int startPage, int sizePage, String field, boolean orderType){
-        final Collection<JourneyEntity> all = journeyRepository.findAll(sql,startPage,sizePage,field,orderType);
-        journeyDependencies(all);
-        return all;
-    }
-
 
     protected void journeyDependencies(Collection<JourneyEntity> all){
         for (JourneyEntity entity2 :all) {

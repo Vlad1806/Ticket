@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.query.criteria.internal.OrderImpl;
 import org.hillel.persistence.entity.AbstractEntity;
+import org.hillel.persistence.entity.JourneyEntity;
 import org.hillel.persistence.entity.JourneyEntity_;
 import org.hillel.persistence.entity.enums.SqlType;
 import org.springframework.util.Assert;
@@ -195,30 +196,54 @@ public abstract class CommonRepository<E extends AbstractEntity<ID>, ID extends 
     }
 
 
-    @Override
+    public Collection<E> findAll(SqlType sqlType){
+        Collection<E> all;
+        switch (sqlType){
+            case HQL:{
+                all = findAll();
+                break;
+            }
+            case SQL: {
+                all = findAllAsNative();
+                break;
+            }
+            case NAMED_QUERY:{
+                all = findAllAsNamed();
+                break;
+            }
+            case STORE_PROCEDURE:{
+                all = findAllAsStoredProcedure();
+                break;
+            }
+            case CRITERIA:{
+                all = findAllAsCriteria();
+                break;
+            }
+            default: throw new IllegalArgumentException("Incorrect sql type!!!");
+        }
+        return all;
+    }
+
     public Collection<E> findAllAsNative(){
         return entityManager.createNativeQuery("SELECT * from " +
                 entityClass.getAnnotation(Table.class).name()
                 ,entityClass).getResultList();
     }
 
-    @Override
-    public Collection<E> findAllAsNamed(){
+    private Collection<E> findAllAsNamed(){
         final List<E> resultList = entityManager.createNamedQuery(entityClass.getAnnotation(NamedQueries.class).
                 value()[0].name(), entityClass).getResultList();
         return resultList;
     }
 
-    @Override
-    public Collection<E> findAllAsCriteria(){
+    private Collection<E> findAllAsCriteria(){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<E> query = criteriaBuilder.createQuery(entityClass);
         Root<E> from = query.from(entityClass);
         return entityManager.createQuery(query.select(from)).getResultList();
     }
 
-    @Override
-    public Collection<E> findAllAsStoredProcedure() {
+    private Collection<E> findAllAsStoredProcedure() {
        return entityManager.createStoredProcedureQuery("find_all",entityClass)
                .registerStoredProcedureParameter(1,Class.class,ParameterMode.REF_CURSOR)
                .registerStoredProcedureParameter(2,String.class,ParameterMode.IN)
