@@ -94,32 +94,10 @@ public class TransactionalJourneyService{
 //    }
 
 
+    /*HomeWork 5*/
     @Transactional(readOnly = true)
     public Collection<JourneyEntity> findAll(SqlType sqlType){
-        Collection<JourneyEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all = journeyRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = journeyRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = journeyRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = journeyRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = journeyRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
+        Collection<JourneyEntity> all = journeyRepository.findAll(sqlType);
         if (all.isEmpty()) return all;
         journeyDependencies(all);
         return all;

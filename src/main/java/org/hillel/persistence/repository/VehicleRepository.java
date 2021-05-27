@@ -64,25 +64,27 @@ public class VehicleRepository extends CommonRepository<VehicleEntity,Long> {
 
     public Collection<VehicleEntity> findVehicleByMinSeats(){
         return  entityManager.createNativeQuery(
-                "select * from vehicle where id = " +
-                       "(select vehicle_id from ( " +
-                "SELECT vehicle_id, MIN(COUNT(*)) OVER (partition by vehicle_id) FROM vehicle_seat " +
-                "where booked = 'no' " +
-                "GROUP BY vehicle_id " +
-                "order by min asc " +
-                "limit 1) k)"
+                "SELECT * from vehicle v where v.id in( " +
+                        "SELECT vehicle_id FROM ( " +
+                        "SELECT vs.vehicle_id, count(booked) free_seat " +
+                        "FROM vehicle_seat vs\n" +
+                        "where booked = 'no' group by vehicle_id) aa " +
+                        "where free_seat = (SELECT Min(free_seat) From " +
+                        "(SELECT count(booked) free_seat FROM vehicle_seat vs " +
+                        "where booked = 'no' group by vehicle_id) seatCount))"
         ,VehicleEntity.class).getResultList();
     }
 
     public Collection<VehicleEntity> findVehicleByMaxSeats(){
         return  entityManager.createNativeQuery(
-                "select * from vehicle where id = " +
-                        "(select vehicle_id from ( " +
-                        "SELECT vehicle_id, Max(COUNT(*)) OVER (partition by vehicle_id) FROM vehicle_seat " +
-                        "where booked = 'no' " +
-                        "GROUP BY vehicle_id " +
-                        "order by max desc " +
-                        "limit 1) k)"
+                "SELECT * from vehicle v where v.id in( " +
+                        "SELECT vehicle_id FROM ( " +
+                        "SELECT vs.vehicle_id, count(booked) free_seat " +
+                        "FROM vehicle_seat vs " +
+                        "where booked = 'no' group by vehicle_id) aa " +
+                        "where free_seat = (SELECT Max(free_seat) From " +
+                        "(SELECT count(booked) free_seat FROM vehicle_seat vs " +
+                        "where booked = 'no' group by vehicle_id) seatCount))"
                 ,VehicleEntity.class).getResultList();
     }
 

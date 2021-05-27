@@ -34,10 +34,12 @@ public class Starter {
 
         //Create Journey
         JourneyEntity journey1 = buildJourney("Одесса","Киев",
-               Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
-        //Create Journey
+                Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
         JourneyEntity journey2 = buildJourney("Одесса","Львов",
                 Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
+        JourneyEntity journey3 = buildJourney("Одесса","Харьков",
+                Instant.now(),Instant.now().plusSeconds(10000L),DirectionType.TO,true);
+
         // Add stops
         journey1.addStop(buildStop(buildStopAdditionalInfo(12D,12D,LocalDate.now(),"Одесса"),
                 buildCommonInfo("Котовский_1","Котовский описание")));
@@ -52,16 +54,19 @@ public class Starter {
                 buildCommonInfo("Винница_2","Винница2 описание")));
         journey2.addStop(buildStop(buildStopAdditionalInfo(130D,130D,LocalDate.now(),"Белая церковь2"),
                 buildCommonInfo("Белая церковь_2","Белая церковь2 описание")));
-
-
         journey2.addStop(buildStop(buildStopAdditionalInfo(99D,99D,LocalDate.now(),"99"),
                 buildCommonInfo("99","99")));
 
+        journey3.addStop(buildStop(buildStopAdditionalInfo(929D,929D,LocalDate.now(),"929"),
+                buildCommonInfo("929","929")));
+
         journey1.addVehicle(vehicle1);
         journey2.addVehicle(vehicle2);
+        journey3.addVehicle(vehicle3);
 
         ticketClient.createOrUpdateJourney(journey1);
         ticketClient.createOrUpdateJourney(journey2);
+        ticketClient.createOrUpdateJourney(journey3);
 
         //Create Vehicle seats
         List<VehicleSeatEntity> vehicle1seats = buildVehicleSeatEntity(journey1,vehicle1);
@@ -72,6 +77,7 @@ public class Starter {
         }
         vehicle1.setVehicleSeats(vehicle1seats);
         journey1.setVehicleSeats(vehicle1seats);
+        journey1.setVehicle(vehicle1);
 
         List<VehicleSeatEntity> vehicle2seats = buildVehicleSeatEntity(journey2,vehicle2);
 
@@ -81,24 +87,42 @@ public class Starter {
         }
         vehicle2.setVehicleSeats(vehicle2seats);
         journey2.setVehicleSeats(vehicle2seats);
-        journey1.setActive(false);
+        journey2.setVehicle(vehicle2);
 
-        System.out.println(vehicle1);
+        List<VehicleSeatEntity> vehicle3seats = buildVehicleSeatEntity(journey3,vehicle3);
+
+        for (int i = 0; i < vehicle3seats.size(); i++) {
+            vehicle3seats.get(i).setBooked(true);
+            ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(i));
+        }
+        vehicle3.setVehicleSeats(vehicle3seats);
+        journey3.setVehicleSeats(vehicle3seats);
+        journey3.setVehicle(vehicle3);
+
+
+        journey1.setActive(false);
 
         vehicle1.setName("bus_3");
         vehicle2.setActive(false);
-//
+
         vehicle1seats.get(5).setBooked(false);
         vehicle1seats.get(6).setBooked(false);
 
         vehicle2seats.get(7).setBooked(false);
-//
-        for (int i = 0; i < vehicle1seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(i));
-        }
-        for (int i = 0; i < vehicle2seats.size(); i++) {
-            ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(i));
-        }
+        vehicle2seats.get(9).setBooked(false);
+
+//        vehicle3seats.get(1).setBooked(false);
+        vehicle3seats.get(2).setBooked(false);
+
+        ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(5));
+        ticketClient.createOrUpdateVehicleSeat(vehicle1seats.get(6));
+
+        ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(7));
+        ticketClient.createOrUpdateVehicleSeat(vehicle2seats.get(9));
+
+        ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(2));
+//        ticketClient.createOrUpdateVehicleSeat(vehicle3seats.get(1));
+
 
         /*  Удаление  Vehicle */ //работает
 //        ticketClient.removeVehicle(vehicle2);
@@ -158,8 +182,6 @@ public class Starter {
 //        JourneyEntity
         System.out.println(ticketClient.findAllJourney(SqlType.HQL,0,5,JourneyEntity_.ID,true));
         System.out.println("\n");
-        journey1.setActive(false);
-        ticketClient.createOrUpdateJourney(journey1);
         System.out.println("Active: " + ticketClient.findAllJourney(SqlType.SQL,0,5,JourneyEntity_.ACTIVE,false));
         System.out.println("\n");
         System.out.println("Id: " + ticketClient.findAllJourney(SqlType.CRITERIA,0,5,JourneyEntity_.ID,false));

@@ -110,30 +110,7 @@ public class TransactionalVehicleService{
 
     @Transactional(readOnly = true)
     public Collection<VehicleEntity> findAll(SqlType sqlType){
-        Collection<VehicleEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all = vehicleRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = vehicleRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = vehicleRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = vehicleRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = vehicleRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
+        Collection<VehicleEntity> all = vehicleRepository.findAll(sqlType);
         if (all.isEmpty()) return all;
         vehicleDependencies(all);
         return all;

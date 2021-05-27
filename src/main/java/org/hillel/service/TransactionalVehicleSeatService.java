@@ -37,32 +37,9 @@ public class TransactionalVehicleSeatService {
 
     @Transactional(readOnly = true)
     public Collection<VehicleSeatEntity> findAll(SqlType sqlType){
-        Collection<VehicleSeatEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all =vehicleSeatRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = vehicleSeatRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = vehicleSeatRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = vehicleSeatRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = vehicleSeatRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
-        return all;
+        return vehicleSeatRepository.findAll(sqlType);
     }
+
     /*HomeWork 6*/
     @Transactional(readOnly = true)
     public Collection<VehicleSeatEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){

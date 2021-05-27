@@ -46,32 +46,9 @@ public class TransactionalStopService {
 
     @Transactional(readOnly = true)
     public Collection<StopEntity> findAll(SqlType sqlType){
-        Collection<StopEntity> all;
-        switch (sqlType){
-            case HQL:{
-                all = stopRepository.findAll();
-                break;
-            }
-            case SQL: {
-                all = stopRepository.findAllAsNative();
-                break;
-            }
-            case NAMED_QUERY:{
-                all = stopRepository.findAllAsNamed();
-                break;
-            }
-            case STORE_PROCEDURE:{
-                all = stopRepository.findAllAsStoredProcedure();
-                break;
-            }
-            case CRITERIA:{
-                all = stopRepository.findAllAsCriteria();
-                break;
-            }
-            default: throw new IllegalArgumentException("Incorrect sql type!!!");
-        }
-        return all;
+        return stopRepository.findAll(sqlType);
     }
+    
     /*HomeWork 6*/
     @Transactional(readOnly = true)
     public Collection<StopEntity> findAll(SqlType sql, int startPage, int sizePage, String field, boolean orderType){
